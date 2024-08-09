@@ -13,7 +13,7 @@ class AdAccountController extends Controller
 {
     public function CampaignList(Request $request) {
         $data_filter = $request->data_filter ?? 10;
-        $accounts = AdCampaign::select('name' , 'account_id' , 'act_account_id')->paginate($data_filter);
+        $accounts = AdCampaign::select('name' , 'account_id' , 'act_account_id' , 'default_dsa_beneficiary' , 'pixel_id')->paginate($data_filter);
         $adscampaign = AdCampaign::all(); 
         $defaultCampaignId = $request->campaing_id ?: AdCampaign::first()->id; 
         $defaultCampaign = $adscampaign->firstWhere('id', $defaultCampaignId);
@@ -38,7 +38,7 @@ class AdAccountController extends Controller
             ]);
             
             $response = Http::get('https://graph.facebook.com/v20.0/me/adaccounts', [
-                'fields' => 'account_id,name,account_status',
+                'fields' => 'account_id,name,id,default_dsa_beneficiary,account_status,adspixels{id,name}',
                 'access_token' => $accessToken
             ]);
            
@@ -55,6 +55,13 @@ class AdAccountController extends Controller
                         $existingCampaign->campaigns =  json_encode([]);
                         $existingCampaign->act_account_id = $adsacc['id'] ?? null;
                         $existingCampaign->account_status = $adsacc['account_status'] ?? null;
+                        $existingCampaign->default_dsa_beneficiary = $adsacc['default_dsa_beneficiary'] ?? null;
+                        // Check if adspixels exists and has data
+                        if (isset($adsacc['adspixels']) && isset($adsacc['adspixels']['data'])) {
+                            $existingCampaign->pixel_id = json_encode($adsacc['adspixels']['data']);
+                        } else {
+                            $existingCampaign->pixel_id = json_encode([]); // Or set to null if you prefer
+                        }
                         $existingCampaign->update();
                     } else {
                         // Create a new record
@@ -65,6 +72,13 @@ class AdAccountController extends Controller
                         $adsCampaign->campaigns =  json_encode([]);
                         $adsCampaign->act_account_id = $adsacc['id'] ?? null;
                         $adsCampaign->account_status = $adsacc['account_status'] ?? null;
+                        $adsCampaign->default_dsa_beneficiary = $adsacc['default_dsa_beneficiary'] ?? null;
+                        // Check if adspixels exists and has data
+                        if (isset($adsacc['adspixels']) && isset($adsacc['adspixels']['data'])) {
+                            $adsCampaign->pixel_id = json_encode($adsacc['adspixels']['data']);
+                        } else {
+                            $adsCampaign->pixel_id = json_encode([]); // Or set to null if you prefer
+                        }
                         $adsCampaign->save();
                     }
                 }

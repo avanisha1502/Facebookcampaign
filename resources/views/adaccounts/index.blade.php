@@ -77,15 +77,32 @@
                                 <th class="">{{ __('Name') }}</th>
                                 <th class="">{{ __('Account ID') }}</th>
                                 <th class="">{{ __('Act Account Id') }}</th>
+                                <th class="">{{ __('Benefieciry Name') }}</th>
+                                <th class="">{{ __('Pixel ID') }}</th>
                             </tr>
                         </thead>
                         @if ($accounts->count() > 0)
                             <tbody>
                                 @foreach ($accounts as $index => $account)
-                                <tr style="background-color: aliceblue; font-weight: 500;">
+                                <tr style="background-color: aliceblue; font-weight: 400;">
+                                    @php
+                                        $pixelIds = json_decode($account->pixel_id, true);
+                                        // Check if pixelIds is an array and has elements
+                                        $pixelIdsArray = is_array($pixelIds) ? $pixelIds : [];
+                                    @endphp
                                     <td class="">{{ $account->name }}</td>
                                     <td class="">{{ $account->account_id }}</td>
                                     <td class="">{{ $account->act_account_id }}</td>
+                                    <td class="">{{ $account->default_dsa_beneficiary ?? "-" }}</td>
+                                    <td>
+                                        @if (!empty($pixelIdsArray))
+                                            @foreach ($pixelIdsArray as $pixel)
+                                                <button class="badge bg-primary b-none">{{ $pixel['name'] }}</button><br>
+                                            @endforeach
+                                        @else
+                                            -
+                                        @endif
+                                    </td>
                                 </tr>
                                 @endforeach
 
@@ -177,9 +194,10 @@
         accounts.forEach(account => {
             const row = document.createElement('tr');
             row.innerHTML = `
-                <td>${account.id}</td>
                 <td>${account.name}</td>
-                <td>${account.status}</td>
+                <td>${account.account_id}</td>
+                <td>${account.id}</td>
+                <td>${account.default_dsa_beneficiary ?? '-'}</td>
             `;
             tableBody.appendChild(row);
         });

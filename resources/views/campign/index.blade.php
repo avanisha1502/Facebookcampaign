@@ -456,18 +456,31 @@
                                                         {{ __('Upload') }}</a>
                                                 </div>
 
-                                                <div>
+                                                {{-- <div>
                                                     <a href="#" data-size="md" data-ajax-popup="true"
                                                         data-url="{{ route('adsaccounts-list', $campaign->id) }}"
                                                         data-title="{{ __('Account List') }}"
                                                         class="btn btn-info me-2 mb-2 text-white"><i
                                                             class="fa fa-facebook"></i>
                                                         {{ __('Generate Campaign') }}</a>
-                                                </div>
+                                                </div> --}}
 
-                                                <div class="progress ms-2" style="width: 200px; display: none;">
-                                                    <div id="progress-bar" class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+                                                <div>
+                                                    <a href="#" data-size="md" data-ajax-popup="true"
+                                                        data-url="{{ route('adsaccounts-list', $campaign->id) }}"
+                                                        data-title="{{ __('Account List') }}"
+                                                        class="btn btn-info me-2 mb-2 text-white"
+                                                        data-campaign-id="{{ $campaign->id }}">
+                                                        <i class="fa fa-facebook"></i> {{ __('Generate Campaign') }}
+                                                    </a>
                                                 </div>
+                                                
+                                                {{-- <div id="progress-{{ $campaign->id }}" class="progress"
+                                                    style="width: 200px; ">
+                                                    <div id="progress-bar-{{ $campaign->id }}" class="progress-bar"
+                                                        role="progressbar" aria-valuenow="0" aria-valuemin="0"
+                                                        aria-valuemax="100">0%</div>
+                                                </div> --}}
 
                                                 {{-- @endif --}}
 
@@ -624,79 +637,4 @@
         // Optional: Alert the user
         show_toastr('Success', 'Text copied to clipboard', 'success');
     }
-
-
-    $(document).on('submit', '#campaign-form', function(e) {
-        e.preventDefault(); // Prevent the default form submission
-
-        var $form = $(this);
-        var $progressBar = $('#progress-bar');
-        var $generateButton = $('#generate-campaign');
-        var formData = new FormData(this);
-        var totalSteps = 100; // Total number of steps to complete
-        var currentStep = 0;
-        
-        // Function to update progress bar with incremental steps
-        function updateProgressBar(step) {
-            var percentComplete = step;
-            $progressBar.css('width', percentComplete + '%').text(percentComplete + '%');
-        }
-        
-        $.ajax({
-            url: $form.attr('action'),
-            type: 'POST',
-            data: formData,
-            processData: false,
-            contentType: false,
-            xhr: function() {
-                var xhr = new window.XMLHttpRequest();
-                
-                xhr.upload.addEventListener('progress', function(e) {
-                    if (e.lengthComputable) {
-                        var percentComplete = Math.round((e.loaded / e.total) * 100);
-                        // Simulate incremental progress
-                        var interval = setInterval(function() {
-                            if (currentStep < percentComplete) {
-                                currentStep++;
-                                updateProgressBar(currentStep);
-                            } else {
-                                clearInterval(interval);
-                            }
-                        }, 20); // Adjust speed of progress update here
-                    }
-                });
-
-                // Handle completion
-                xhr.addEventListener('load', function() {
-                    updateProgressBar(100); // Ensure progress bar reaches 100%
-                });
-                
-                return xhr;
-            },
-            beforeSend: function() {
-                $('#commonModal').modal('hide'); // Replace #myModal with your modal's ID
-                $generateButton.prop('disabled', true); // Disable the button
-                $('.progress').show(); // Show the progress bar
-                // Initialize progress bar
-                $progressBar.css('width', '0%').text('0%');
-            },
-            success: function(response) {
-                // Complete progress and close the modal
-                setTimeout(function() {
-                    $('.progress').hide(); // Hide the progress bar after completion
-                    $generateButton.prop('disabled', false); // Re-enable the button
-
-                    // Close the modal
-                   
-                }, 2000); // Adjust delay as needed
-            },
-            error: function(xhr) {
-                $progressBar.css('width', '0%').text('Failed');
-                setTimeout(function() {
-                    $('.progress').hide(); // Hide the progress bar after error
-                    $generateButton.prop('disabled', false); // Re-enable the button
-                }, 2000); // Adjust delay as needed
-            }
-        });
-    });
 </script>

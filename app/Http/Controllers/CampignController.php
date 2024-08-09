@@ -618,7 +618,7 @@ class CampignController extends Controller
     public function ImageUpload($id) {
         $campaign = Campign::find($id);
         $languages = GenerateHeadLines::select('language')->where('campaign_id' , $id)->get();
-        $accounts = AdCampaign::select('id' ,'name' , 'account_id' , 'act_account_id')->get();
+        $accounts = AdCampaign::select('id' ,'name' , 'account_id' , 'act_account_id' , 'account_status')->get();
 
         // Retrieve the images for the default selected language (if any)
         $defaultLanguage = $languages->first()->language ?? null;
@@ -634,7 +634,8 @@ class CampignController extends Controller
 
     public function storeImage(Request $request, $id)
     {
-        $accountId = $request->account_id;
+        $newAccountId = $request->account_id;
+        $language = $request->language;
         // Validate the request
         $request->validate([
             'images.*' => 'required|image|mimes:jpg,png,jpeg|max:2048',
@@ -646,11 +647,16 @@ class CampignController extends Controller
         $headline = GenerateHeadLines::where('campaign_id', $id)
             ->where('language', $request->language)
             ->first();
-            if($request->hasFile('images') == false) {
-               $imagess = $headline->images;
-            } else {
-                $imagess = $request->hasFile('images');
-            }
+        
+        if (!$headline) {
+            return redirect()->route('index-campaign')->with('error', __('Headline not found.'));
+        }
+
+        // Get the old account ID
+        $oldAccountId = $headline->account_id;
+        $isAccountIdChanged = $oldAccountId !== $newAccountId;
+        $isLanguageChanged = $headline->language !== $language;
+        
         // dd($imagess ,$request->hasFile('images'));
         // Decode existing images if stored as JSON string
         $existingImages = json_decode($headline->images, true) ?? [];
@@ -658,7 +664,7 @@ class CampignController extends Controller
 
         $imageUrls = [];
         $imageHashes = [];
-        // dd($imagess);
+
         if ($request->hasFile('images')) {
             foreach ($request->file('images') as $image) {
                 // Generate a unique filename
@@ -674,22 +680,47 @@ class CampignController extends Controller
                     $imageHashes[] = $imageHash;
                 }
             }
+        } else {
+            $allImages = $existingImages;
+            $allHashes = $existingHashes;
         }
 
-         // Handle existing images conversion to hashes
-        foreach ($existingImages as $existingImageUrl) {
-            if (!in_array($existingImageUrl, $imageUrls)) {
-                $imageHash = $this->uploadImage($existingImageUrl, $accountId);
-                // dd($imageHash , $existingImageUrl);
-                if ($imageHash) {
-                    $imageHashes[] = $imageHash;
-                    // $imageUrls[] = $existingImageUrl; // Ensure existing image URLs are kept
+        // Determine if any field needs updating
+        $updateFields = $isAccountIdChanged || $isLanguageChanged || $request->hasFile('images');
+        // dd($isAccountIdChanged);
+        // Update all campaigns with the old account ID if the account ID has changed
+            $campaigns = GenerateHeadLines::where('campaign_id', $id)->get();
+            if($campaigns) {
+                foreach($campaigns as $campaign) {
+                    GenerateHeadLines::where('campaign_id', $id)->update(['account_id' => $newAccountId]);
                 }
             }
+
+        if ($updateFields) {
+            // Update all fields
+            $headline->account_id = $newAccountId;
+            $headline->language = $language;
+            $headline->images = json_encode($allImages);
+            $headline->hashes = json_encode($allHashes);
         }
 
-        $allImages = array_merge($existingImages, $imageUrls);
-        $allHashes = array_merge($existingHashes, $imageHashes);
+        // Save changes
+        $headline->update();
+
+         // Handle existing images conversion to hashes
+        // foreach ($existingImages as $existingImageUrl) {
+        //     if (!in_array($existingImageUrl, $imageUrls)) {
+        //         $imageHash = $this->uploadImage($existingImageUrl, $accountId);
+        //         // dd($imageHash , $existingImageUrl);
+        //         if ($imageHash) {
+        //             $imageHashes[] = $imageHash;
+        //             // $imageUrls[] = $existingImageUrl; // Ensure existing image URLs are kept
+        //         }
+        //     }
+        // }
+
+        // $allImages = array_merge($existingImages, $imageUrls);
+        // $allHashes = array_merge($existingHashes, $imageHashes);
 
         // Process new images
         // if ($request->hasFile('images')) {
@@ -712,11 +743,13 @@ class CampignController extends Controller
         // $headline->update();
 
         // dd($allImages);
+        
+
         // Update or save images
-        $headline->account_id = $accountId ?? Null;
-        $headline->images = json_encode($allImages); // Encode array to JSON string
-        $headline->hashes = json_encode($imageHashes);
-        $headline->update();
+        // $headline->account_id = $accountId ?? Null;
+        // $headline->images = json_encode($allImages); // Encode array to JSON string
+        // $headline->hashes = json_encode($imageHashes);
+        // $headline->update();
 
         return redirect()->route('index-campaign')->with('success', __('Language wise Images uploaded successfully!'));
     }

@@ -56,7 +56,8 @@
             @csrf
             <div class="card-body">
                 <div class="row">
-                    <div class="col-md-4">
+
+                    {{-- <div class="col-md-4">
                         <div class="form-group mb-3">
                             <label for="language-select" class=" mb-2">Account ID:</label>
                             <select id="account-select" class="form-select" name="account_id">
@@ -67,6 +68,53 @@
                             @error('account_id')
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
+                        </div>
+                    </div> --}}
+                    <div class="col-md-4">
+                        <div class="custom-select-wrapper">
+                            <label for="language-select" class=" mb-2">Account ID:</label>
+                            <div class="custom-select">
+                                <div class="custom-select__trigger"><span>Select an account</span>
+                                    <div class="arrow"></div>
+                                </div>
+                                <div class="custom-options">
+                                    @foreach ($accounts as $account)
+                                        @php
+                                            if ($account->account_status == '202') {
+                                                $status = 'Any Closed';
+                                                $bgColor = '#FFB3BA'; // Light Red
+                                                $Color = 'black';
+                                            } elseif ($account->account_status == '2') {
+                                                $status = 'Disabled';
+                                                $bgColor = 'red'; // Light Green
+                                                $Color = 'white';
+                                            } elseif ($account->account_status == '3') {
+                                                $status = 'Un Settled';
+                                                $bgColor = '#BAE1FF'; // Light Blue
+                                                $Color = 'black';
+                                            } elseif ($account->account_status == '101') {
+                                                $status = 'Closed';
+                                                $bgColor = '#FFDFBA'; // Light Orange
+                                                $Color = 'black';
+                                            } elseif ($account->account_status == '201') {
+                                                $status = 'Any Active';
+                                                $bgColor = '#FFFFBA'; // Light Yellow
+                                                $Color = 'black';
+                                            } else {
+                                                $status = 'Active';
+                                                $bgColor = '#1ca911'; // Light Gray
+                                                $Color = 'white';
+                                            }
+                                        @endphp
+                                        <span class="custom-option" data-value="{{ $account->account_id }}">
+                                            {{ $account->name }} - {{ $account->account_id }}
+                                            <span class="status-label"
+                                                style="background-color: {{ $bgColor }}; color: {{ $Color }};">{{ $status }}</span>
+                                        </span>
+                                    @endforeach
+                                </div>
+                            </div>
+                            <input type="hidden" name="account_id" id="account_id_input">
                         </div>
                     </div>
 
@@ -86,7 +134,8 @@
                     <div class="col-md-4">
                         <div class="form-group mb-3">
                             <label for="file-input mb-3" class=" mb-2">Image:</label>
-                            <input id="file-input" type="file" name="images[]" class="form-control" value="{{ old('images')  }}" multiple >
+                            <input id="file-input" type="file" name="images[]" class="form-control"
+                                value="{{ old('images') }}" multiple>
                             @error('images.*')
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
@@ -108,7 +157,6 @@
         </form>
     </div>
 @endsection
-
 
 @push('scripts')
     <script>
@@ -189,7 +237,7 @@
                                     type: 'DELETE',
                                     data: {
                                         language: $("#language-select")
-                                    .val(), // Use the selected language
+                                            .val(), // Use the selected language
                                         campaign_id: campaignId,
                                         image_url: imageUrl
                                     },
@@ -203,18 +251,18 @@
                                                 .remove();
                                         } else {
                                             console.error(
-                                            'Failed to delete image.');
+                                                'Failed to delete image.');
                                         }
                                     }.bind(this),
                                     error: function(xhr, status, error) {
                                         console.error('AJAX Error:', status,
-                                        error); // Handle AJAX errors
+                                            error); // Handle AJAX errors
                                     }
                                 });
                             });
                         } else {
                             previewZone.append(
-                            '<p></p>'); // Handle the case when there are no images
+                                '<p></p>'); // Handle the case when there are no images
                         }
                     },
                     error: function(xhr, status, error) {
@@ -232,88 +280,38 @@
             });
         });
 
+        document.querySelector('.custom-select-wrapper').addEventListener('click', function() {
+            this.querySelector('.custom-select').classList.toggle('open');
+        })
 
-        // $(document).ready(function() {
-        //     const csrfToken = $('meta[name="csrf-token"]').attr('content');
-        //     $("#language-select").change(function() {
-        //         let selectedLanguage = $(this).val();
-        //         var campaignId = "{{ $campaign->id }}"; // Get the campaign ID from the hidden input
+        for (const option of document.querySelectorAll(".custom-option")) {
+            option.addEventListener('click', function() {
+                if (!this.classList.contains('selected')) {
+                    if (this.parentNode.querySelector('.custom-option.selected')) {
+                        this.parentNode.querySelector('.custom-option.selected').classList.remove('selected');
+                    }
+                    this.classList.add('selected');
 
-        //         $.ajax({
-        //             type: 'GET',
-        //             url: "{{ route('fetch-images') }}",
-        //             headers: {
-        //                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        //             },
-        //             data: {
-        //                 language: selectedLanguage,
-        //                 campaign_id: campaignId // Include the campaign ID in the request
-        //             },
-        //             success: function(response) {
-        //                 console.log('Response:', response); // Debugging: Check the response
+                    // Update the trigger text
+                    let selectedText = this.textContent.trim();
+                    let statusLabel = this.querySelector('.status-label');
+                    if (statusLabel) {
+                        selectedText = selectedText.replace(statusLabel.textContent.trim(), '').trim();
+                    }
+                    this.closest('.custom-select').querySelector('.custom-select__trigger span').textContent =
+                        selectedText;
 
-        //                 let images = typeof response.images === 'string' ? JSON.parse(response
-        //                     .images) : response.images;
+                    // Update the hidden input value
+                    document.querySelector('#account_id_input').value = this.getAttribute('data-value');
+                }
+            })
+        }
 
-        //                 let previewZone = $('.preview-images-zone');
-        //                 previewZone.empty();
-
-        //                 if (images && images.length) {
-        //                     images.forEach(function(image) {
-        //                         previewZone.append(`
-    //                 <div class="preview-image">
-    //                     <img src="${image}" alt="Image">
-    //                     <button class="delete-button" data-image-url="${image}" data-campaign-id="${campaignId}">Delete &times;</button>
-    //                 </div>
-    //             `);
-        //                     });
-
-        //                     // Attach event listener for delete buttons
-        //                     $('.delete-button').click(function() {
-        //                         let imageUrl = $(this).data('image-url');
-        //                         let campaignId = $(this).data('campaign-id');
-
-        //                         $.ajax({
-        //                             url: "{{ route('delete-image') }}",
-        //                             type: 'DELETE',
-        //                             data: {
-        //                                 language: selectedLanguage,
-        //                                 campaign_id: campaignId,
-        //                                 image_url: imageUrl
-        //                             },
-        //                             headers: {
-        //                                 'X-CSRF-TOKEN': csrfToken // Add CSRF token to the headers
-        //                             },
-        //                             success: function(response) {
-        //                                 if (response.success) {
-        //                                     // Remove the image from the DOM
-        //                                     $(this).closest(
-        //                                             '.preview-image')
-        //                                         .remove();
-        //                                 } else {
-        //                                     console.error(
-        //                                         'Failed to delete image.'
-        //                                     );
-        //                                 }
-        //                             }.bind(this),
-        //                             error: function(xhr, status, error) {
-        //                                 console.error('AJAX Error:', status,
-        //                                     error); // Handle AJAX errors
-        //                             }
-        //                         });
-        //                     });
-        //                 } else {
-        //                     previewZone.append(
-        //                         '<p></p>'
-        //                     ); // Handle the case when there are no images
-        //                 }
-        //             },
-        //             error: function(xhr, status, error) {
-        //                 console.error('AJAX Error:', status, error); // Handle AJAX errors
-        //             }
-        //         });
-        //     });
-
-        // });
+        window.addEventListener('click', function(e) {
+            const select = document.querySelector('.custom-select')
+            if (!select.contains(e.target)) {
+                select.classList.remove('open');
+            }
+        });
     </script>
 @endpush

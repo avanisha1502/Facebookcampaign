@@ -33,6 +33,19 @@ class CampaignGenerateController extends Controller
         return view('campign.campiagnaccount' , compact('adscampaign' , 'defaultCampaignId' , 'campaign'));
     }
 
+    public function getPixelsByAccount($accountId)
+    {
+        // Fetch pixels associated with the given account ID
+        $pixels = AdCampaign::where('account_id', $accountId)->get();
+        // Decode the pixel_id JSON field
+        $decodedPixels = [];
+        foreach ($pixels as $pixel) {
+            $decodedPixels = array_merge($decodedPixels, json_decode($pixel->pixel_id, true));
+        }
+
+        return response()->json($decodedPixels);
+    }
+
 
     public function CampaignAdsCreate(Request $request, $id)
     {
@@ -58,13 +71,13 @@ class CampaignGenerateController extends Controller
             }
             $result = array_filter($result);
 
-            $imageRecords = GenerateHeadlines::select('images')->where('campaign_id', $id)->get();
+            $imageRecords = GenerateHeadlines::select('images' , 'hashes')->where('campaign_id', $id)->get();
 
             $allImagesUploaded = true;
             foreach ($imageRecords as $record) {
-                $images = json_decode($record->images, true);
+                $images = json_decode($record->hashes, true);
                 if ($images === null || empty($images)) {
-                    return redirect()->route('index-campaign')->with('error', __('First upload images for specific language'));
+                    return redirect()->route('index-campaign')->with('error', __('First upload images hashes for specific language'));
                 }
             }
 
@@ -80,8 +93,14 @@ class CampaignGenerateController extends Controller
                     'special_ad_categories' => 'NONE',
                     'status' => 'PAUSED'
                 ]);
-    
+            
                 $campaign = $response->json();
+                
+                if (isset($campaign['error'])) {
+                    $errorMessage = $campaign['error']['message'] ?? 'An unknown error occurred';
+                    \Log::error("Failed to create campaign: $campaignName. Error: $errorMessage");
+                    return redirect()->route('index-campaign')->with('error', $errorMessage);
+                }
 
                 $campaignId = $campaign['id'] ?? null;
                 // hudfhdr-t1e-fb-ads
@@ -91,7 +110,9 @@ class CampaignGenerateController extends Controller
                         'id' => $campaignId
                     ];
                 } else {
-                    \Log::error("Failed to create campaign: $campaignName");
+                    $errorMessage = __('Failed to create campaign: ') . $campaignName;
+                    \Log::error($errorMessage);
+                    return redirect()->route('index-campaign')->with('error', $errorMessage);
                 }
             }
 
@@ -121,19 +142,19 @@ class CampaignGenerateController extends Controller
         }
     }
 
-    public function fetchAccountDetails($request)
-    {
-        $accountId = $request->account_id ? 'act_' . $request->account_id : 'act_1440720373248918';
+    // public function fetchAccountDetails($request)
+    // {
+    //     $accountId = $request->account_id ? 'act_' . $request->account_id : 'act_1440720373248918';
 
-        $response = Http::get("https://graph.facebook.com/v20.0/{$accountId}?fields=default_dsa_beneficiary&access_token={$this->accessToken}");
+    //     $response = Http::get("https://graph.facebook.com/v20.0/{$accountId}?fields=default_dsa_beneficiary&access_token={$this->accessToken}");
 
-        if ($response->failed()) {
-            \Log::error("Failed to fetch account details", ['response' => $response->json()]);
-            return null;
-        }
+    //     if ($response->failed()) {
+    //         \Log::error("Failed to fetch account details", ['response' => $response->json()]);
+    //         return null;
+    //     }
 
-        return $response->json();
-    }
+    //     return $response->json();
+    // }
 
     protected function createAdSetForGroup($campaignId, $group, $country, $request)
     {
@@ -141,8 +162,8 @@ class CampaignGenerateController extends Controller
         $accountId = $request->account_id ? 'act_' . $request->account_id : 'act_1440720373248918';
         
         // Fetch account details
-        $accountDetails = $this->fetchAccountDetails($request);
-
+        // $accountDetails = $this->fetchAccountDetails($request);
+        $accountDetails = AdCampaign::where('act_account_id' , $accountId)->first();
         if (!$accountDetails) {
             \Log::error("Account details not found");
             return;
@@ -150,7 +171,8 @@ class CampaignGenerateController extends Controller
         
         // Create Ad Set
         $url = "https://graph.facebook.com/v14.0/{$accountId}/adsets";
-        $pixelId = '506000408596077'; // Replace with your actual pixel ID
+        // $pixelId = '506000408596077'; // Replace with your actual pixel ID
+        $pixelId = $request->pixel_id;
         
         // Fetch country code
         $countryData = CountryCampaign::select('short_code')->where('name', $country)->first();
@@ -161,41 +183,12 @@ class CampaignGenerateController extends Controller
         }
 
         $countryCode = $countryData->short_code;
-        $dsaBeneficiary = $accountDetails['default_dsa_beneficiary'] ?? null;
+        $dsaBeneficiary = $accountDetails->default_dsa_beneficiary ?? null;
          // Define European countries
         $europeanCountries = [
             'Finland', 'Austria', 'France', 'Germany', 'Greece', 'Ireland', 'Italy', 'Luxembourg', 'Netherlands', 'Poland', 'Portugal',
             'Romania', 'Spain','Sweden',
         ];
-
-        // $response = Http::post($url, [
-        //     'access_token' => $this->accessToken,
-        //     'name' => $country, // Use country for ad set name
-        //     'optimization_goal' => 'OFFSITE_CONVERSIONS',
-        //     'billing_event' => 'IMPRESSIONS',
-        //     'bid_amount' => '10000',
-        //     'daily_budget' => '10000',
-        //     'campaign_id' => $campaignId,
-        //     'start_time' => now()->toIso8601String(),
-        //     'status' => 'PAUSED',
-        //     'targeting' => [
-        //         'geo_locations' => [
-        //             'countries' => [$countryCode] // Use the actual country code
-        //         ],
-        //         'publisher_platforms' => ['facebook', 'instagram'],
-        //     ],
-        //     'conversion_specs' => [
-        //         'conversion_location' => 'website',
-        //         'conversion_event' => 'PURCHASE'
-        //     ],
-        //     'promoted_object' => [
-        //         'pixel_id' => $pixelId,
-        //         'custom_event_type' => 'PURCHASE'
-        //     ],
-        //     'dsa_beneficiary' => [
-        //         'id' => 'YOUR_BENEFICIARY_ID' // Replace with the actual beneficiary ID
-        //     ],
-        // ]);
 
         // Prepare request data
         $adSetData = [
@@ -245,7 +238,8 @@ class CampaignGenerateController extends Controller
 
     protected function createAdsForAdSet($adSetId, $country, $request , $cmapignID)
     {
-        $creativeData = $this->getCreativeDataForCountry($country , $cmapignID);
+        $accountId = $request->account_id;
+        $creativeData = $this->getCreativeDataForCountry($country , $cmapignID , $accountId);
 
         // Create Ad Creative
         $creativeResponse = $this->createAdCreative($creativeData , $request , $cmapignID);
@@ -265,15 +259,19 @@ class CampaignGenerateController extends Controller
         }
     }
 
-    protected function getCreativeDataForCountry($country , $cmapignID)
+    protected function getCreativeDataForCountry($country , $cmapignID , $accountId)
     {
+        $account = $accountId ? 'act_' . $accountId : 'act_1440720373248918';
+        $account_id = AdCampaign::where('act_account_id' , $account)->first();
         $country_id = CountryCampaign::where('name' , $country)->first();
+        // $Data = GenerateHeadlines::where('campaign_id' , $cmapignID)->where('language' , $country_id->language)->where('account_id' , $account_id->id)->first();
         $Data = GenerateHeadlines::where('campaign_id' , $cmapignID)->where('language' , $country_id->language)->first();
         return [
             'headline' => $Data->headline,
             'primary_text' => $Data->primary_text,
             'description' => $Data->description,
-            'images' => json_decode($Data->images, true) // Decode JSON to array
+            'images' => json_decode($Data->images, true), // Decode JSON to array
+            'hashes' => json_decode($Data->hashes, true) 
         ];
     }
 
@@ -287,8 +285,9 @@ class CampaignGenerateController extends Controller
         $tracking_url =  "https://flarequick.com/cf/r/669a9bc816aab80012aac85e?ad_id={{ad.id}}&adset_id={{adset.id}}&campaign_id={{campaign.id}}&ad_name={{ad.name}}&adset_name={{adset.name}}&campaign_name={{campaign.name}}&source={{site_source_name}}&placement={{placement}}";
         // Create carousel items
         $carouselItems = [];
-        foreach ($data['images'] as $index => $imageUrl) {
-            $imageHash = $this->uploadImage($imageUrl);
+        foreach ($data['hashes'] as $index => $imageUrl) {
+            // $imageHash = $this->uploadImage($imageUrl);
+            $imageHash = $imageUrl;
             if ($imageHash) {
                 $carouselItems[] = [
                     'link' => $display_link,
@@ -426,36 +425,36 @@ class CampaignGenerateController extends Controller
         ]);
     }
 
-    protected function uploadImage($imageUrl)
-    {
-        // Download the image
-        $tempImage = tempnam(sys_get_temp_dir(), 'img');
-        file_put_contents($tempImage, file_get_contents($imageUrl));
+    // protected function uploadImage($imageUrl)
+    // {
+    //     // Download the image
+    //     $tempImage = tempnam(sys_get_temp_dir(), 'img');
+    //     file_put_contents($tempImage, file_get_contents($imageUrl));
     
-        $url = "https://graph.facebook.com/v14.0/{$this->accountId}/adimages";
+    //     $url = "https://graph.facebook.com/v14.0/{$this->accountId}/adimages";
         
-        // Upload the image
-        $response = Http::attach(
-            'source', fopen($tempImage, 'r'), basename($imageUrl)
-        )->post($url, [
-            'access_token' => $this->accessToken,
-        ]);
+    //     // Upload the image
+    //     $response = Http::attach(
+    //         'source', fopen($tempImage, 'r'), basename($imageUrl)
+    //     )->post($url, [
+    //         'access_token' => $this->accessToken,
+    //     ]);
         
-        // Delete the temporary file
-        unlink($tempImage);
+    //     // Delete the temporary file
+    //     unlink($tempImage);
         
-        $responseData = $response->json();
+    //     $responseData = $response->json();
     
-        // Check the response
-        if ($response->failed()) {
-            \Log::error("Failed to upload image", ['response' => $responseData]);
-            return null;
-        }
+    //     // Check the response
+    //     if ($response->failed()) {
+    //         \Log::error("Failed to upload image", ['response' => $responseData]);
+    //         return null;
+    //     }
     
-        // Extract and return the image hash
-        $imageKey = basename($imageUrl);
-        return $responseData['images'][$imageKey]['hash'] ?? null;
-    }
+    //     // Extract and return the image hash
+    //     $imageKey = basename($imageUrl);
+    //     return $responseData['images'][$imageKey]['hash'] ?? null;
+    // }
     
 
 

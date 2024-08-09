@@ -114,9 +114,9 @@
     <script src="{{ asset('assets/plugins/tag-it/js/tag-it.min.js') }}"></script>
     <script src="{{ asset('js/sweetalert.min.js') }}"></script>
     <script>
-        $(function() {
-            CountryData();
-        });
+        // $(function() {
+        //     CountryData();
+        // });
 
         $('#datatableDefault').DataTable({
             dom: "<'row mb-3'<'col-sm-4'l><'col-sm-8 text-end'<'d-flex justify-content-end'fB>>>t<'d-flex align-items-center mt-3'<'me-auto'i><'mb-0'p>>",
@@ -195,24 +195,24 @@
                 });
             });
 
-        function CountryData() {
-            $.ajax({
-                url: "{{ route('loadcountrydata') }}",
-                type: 'POST',
-                dataType: 'json',
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                success: function(response) {
-                    console.log(response.message);
-                    // alert('Data loaded successfully.');
-                },
-                error: function(xhr, status, error) {
-                    console.error(xhr.responseJSON.error);
-                    // alert('Failed to load data.');
-                }
-            });
-        }
+        // function CountryData() {
+        //     $.ajax({
+        //         url: "{{ route('loadcountrydata') }}",
+        //         type: 'POST',
+        //         dataType: 'json',
+        //         headers: {
+        //             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        //         },
+        //         success: function(response) {
+        //             console.log(response.message);
+        //             // alert('Data loaded successfully.');
+        //         },
+        //         error: function(xhr, status, error) {
+        //             console.error(xhr.responseJSON.error);
+        //             // alert('Failed to load data.');
+        //         }
+        //     });
+        // }
 
         function commonLoader() {
             if ($(".select2").length) {

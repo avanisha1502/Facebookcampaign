@@ -113,6 +113,8 @@ Route::group(['middleware' => 'check.activity'], function () {
 
     Route::post('/create-adscampaign/{id}', [CampaignGenerateController::class, 'CampaignAdsCreate'])->name('campaignads.store');
     Route::get('/adsaccounts-list/{id}', [CampaignGenerateController::class, 'AccountList'])->name('adsaccounts-list')->middleware('auth.redirect');
+    
+    Route::get('/pixels/{accountId}', [CampaignGenerateController::class, 'getPixelsByAccount'])->name('pixels.byAccount');
 
     // Route::get('/get-ads-accounts', [AdAccountController::class, 'getAdAccount'])->name('getadaccounts')->middleware('auth.redirect');
 
