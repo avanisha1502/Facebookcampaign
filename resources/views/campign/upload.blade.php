@@ -50,31 +50,23 @@
         }
     </style>
     <div class="card">
-
         <form action="{{ route('generate-imageUpload-store', $campaign->id) }}" method="POST" enctype="multipart/form-data"
             id="campaign-Image">
             @csrf
             <div class="card-body">
                 <div class="row">
-
-                    {{-- <div class="col-md-4">
-                        <div class="form-group mb-3">
-                            <label for="language-select" class=" mb-2">Account ID:</label>
-                            <select id="account-select" class="form-select" name="account_id">
-                                @foreach ($accounts as $account)
-                                    <option value="{{ $account->id }}">{{ $account->name }} - {{ $account->account_id }}</option>
-                                @endforeach
-                            </select>
-                            @error('account_id')
-                                <span class="text-danger">{{ $message }}</span>
-                            @enderror
-                        </div>
-                    </div> --}}
                     <div class="col-md-4">
                         <div class="custom-select-wrapper">
                             <label for="language-select" class=" mb-2">Account ID:</label>
                             <div class="custom-select">
-                                <div class="custom-select__trigger"><span>Select an account</span>
+
+                                <div class="custom-select__trigger"> <span>
+                                        @if ($oldAccountId)
+                                            {{ $accounts->firstWhere('account_id', $oldAccountId)->name ?? 'Select an account' }}
+                                        @else
+                                            Select an account
+                                        @endif
+                                    </span>
                                     <div class="arrow"></div>
                                 </div>
                                 <div class="custom-options">
@@ -114,7 +106,7 @@
                                     @endforeach
                                 </div>
                             </div>
-                            <input type="hidden" name="account_id" id="account_id_input">
+                            <input type="hidden" name="account_id" id="account_id_input"value="{{ $oldAccountId }}">
                         </div>
                     </div>
 
@@ -151,8 +143,11 @@
                     <div class="preview-images-zone"></div>
                 </div>
             </div>
-            <div class="modal-footer mb-3 mr-15">
-                <button type="submit" class="btn btn-primary">Save changes</button>
+            <div class="modal-footer col-xs-12 col-sm-12 col-md-12  mb-3 ">
+                <button type="submit" class="btn btn-primary mr-15" id="submitBtn">{{ __('Upload') }}</button>
+                <button class="buttonload btn btn-primary mr-15" style="display: none;">
+                    <i class="fa fa-spinner fa-spin mr-5"></i>{{ __('Uploading') }}
+                </button>
             </div>
         </form>
     </div>
@@ -160,6 +155,13 @@
 
 @push('scripts')
     <script>
+        $(document).ready(function() {
+            $('#campaign-Image').on('submit', function() {
+                $('#submitBtn').hide(); // Hide the submit button
+                $('.buttonload').show(); // Show the loader
+            });
+        });
+
         $(document).ready(function() {
             // Display image previews
             function readURL(input) {
@@ -280,38 +282,69 @@
             });
         });
 
-        document.querySelector('.custom-select-wrapper').addEventListener('click', function() {
-            this.querySelector('.custom-select').classList.toggle('open');
-        })
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize custom select
+            const select = document.querySelector('.custom-select');
+            const trigger = select.querySelector('.custom-select__trigger');
+            const options = select.querySelectorAll('.custom-option');
+            const accountIdInput = document.querySelector('#account_id_input');
 
-        for (const option of document.querySelectorAll(".custom-option")) {
-            option.addEventListener('click', function() {
-                if (!this.classList.contains('selected')) {
-                    if (this.parentNode.querySelector('.custom-option.selected')) {
-                        this.parentNode.querySelector('.custom-option.selected').classList.remove('selected');
+            // Set the initial selected value
+            const selectedValue = accountIdInput.value;
+            if (selectedValue) {
+                options.forEach(option => {
+                    if (option.getAttribute('data-value') === selectedValue) {
+                        option.classList.add('selected');
+                        // Update trigger text without the 'Active' status
+                        let selectedText = option.textContent.trim();
+                        const statusLabel = option.querySelector('.status-label');
+                        if (statusLabel) {
+                            selectedText = selectedText.replace(statusLabel.textContent.trim(), '').trim();
+                        }
+                        trigger.querySelector('span').textContent = selectedText;
                     }
+                });
+            } else {
+                trigger.querySelector('span').textContent = 'Select an account';
+            }
+
+            document.querySelector('.custom-select-wrapper').addEventListener('click', function() {
+                this.querySelector('.custom-select').classList.toggle('open');
+            });
+
+            options.forEach(option => {
+                option.addEventListener('click', function() {
+                    const previouslySelected = this.parentNode.querySelector(
+                        '.custom-option.selected');
+
+                    if (previouslySelected) {
+                        previouslySelected.classList.remove('selected');
+                    }
+
                     this.classList.add('selected');
 
                     // Update the trigger text
                     let selectedText = this.textContent.trim();
-                    let statusLabel = this.querySelector('.status-label');
+                    const statusLabel = this.querySelector('.status-label');
                     if (statusLabel) {
-                        selectedText = selectedText.replace(statusLabel.textContent.trim(), '').trim();
+                        selectedText = selectedText.replace(statusLabel.textContent.trim(), '')
+                            .trim();
                     }
-                    this.closest('.custom-select').querySelector('.custom-select__trigger span').textContent =
-                        selectedText;
+                    trigger.querySelector('span').textContent = selectedText;
 
                     // Update the hidden input value
-                    document.querySelector('#account_id_input').value = this.getAttribute('data-value');
-                }
-            })
-        }
+                    accountIdInput.value = this.getAttribute('data-value');
 
-        window.addEventListener('click', function(e) {
-            const select = document.querySelector('.custom-select')
-            if (!select.contains(e.target)) {
-                select.classList.remove('open');
-            }
+                    // Close the dropdown
+                    select.classList.remove('open');
+                });
+            });
+
+            window.addEventListener('click', function(e) {
+                if (!select.contains(e.target)) {
+                    select.classList.remove('open');
+                }
+            });
         });
     </script>
 @endpush

@@ -49,7 +49,7 @@ class CampaignGenerateController extends Controller
 
     public function CampaignAdsCreate(Request $request, $id)
     {
-        ini_set('max_execution_time', 6000);
+        ini_set('max_execution_time', 0);
         try {
             $accountId = $request->account_id ? 'act_' . $request->account_id : 'act_1440720373248918';
             
@@ -58,7 +58,7 @@ class CampaignGenerateController extends Controller
             $campaignNames = json_decode($campaign->topic_campaign_name);
             
             $groups = Setting::select('name')->get()->pluck('name')->toArray();
-            $countries = CountryCampaign::select('name', 'group')->get();
+            $countries = CountryCampaign::select('name', 'group' , 'language')->get();
             
             $result = array_fill_keys($groups, []);
             foreach ($countries as $country) {
@@ -81,7 +81,27 @@ class CampaignGenerateController extends Controller
                 }
             }
 
-            // dd($allImagesUploaded);
+            $languages = \DB::table('country_campaigns')
+            ->select(\DB::raw('MIN(id) as id, language'))
+            ->groupBy('language')
+            ->get();
+
+           $languags = GenerateHeadLines::select('language')->where('campaign_id', $id)->pluck('language')->toArray();
+
+             // Check if all countries have generated headlines
+            $missingCountries = [];
+            foreach ($languages as $country) {
+                if (!in_array($country->language, $languags)) {
+                    $missingCountries[] = $country->language;
+                }
+            }
+
+            if (!empty($missingCountries)) {
+                $missingCountriesList = implode(', ', $missingCountries);
+                \Log::error("Failed to create campaign: $missingCountriesList.");
+                return redirect()->route('index-campaign')->with('error', __('Headlines are not generated for the following countries: ') . $missingCountriesList);
+            }
+
 
             $url = "https://graph.facebook.com/v20.0/{$accountId}/campaigns";
             $createdCampaigns = [];
@@ -341,6 +361,24 @@ class CampaignGenerateController extends Controller
 
         return $response->json();
     }
+    protected function createAd($adSetId, $creative_id , $request , $country)
+    {
+        $accountId = $request->account_id ? 'act_' . $request->account_id : 'act_1440720373248918';
+        $country_id = CountryCampaign::where('name' , $country)->first();
+        $url = "https://graph.facebook.com/v14.0/{$accountId}/ads";
+
+        
+        return Http::post($url, [
+            'access_token' => $this->accessToken,
+            'name' => $country_id->language . '-' .$country_id->short_code,
+            'adset_id' => $adSetId,
+            'creative' => [
+                'creative_id' => $creative_id
+            ],
+            'status' => 'PAUSED',
+        ]);
+    }
+
 
     // protected function createAdCreative($data , $request , $cmapignID)
     // {
@@ -406,24 +444,6 @@ class CampaignGenerateController extends Controller
 
     //     return $response->json();
     // }
-
-    protected function createAd($adSetId, $creative_id , $request , $country)
-    {
-        $accountId = $request->account_id ? 'act_' . $request->account_id : 'act_1440720373248918';
-        $country_id = CountryCampaign::where('name' , $country)->first();
-        $url = "https://graph.facebook.com/v14.0/{$accountId}/ads";
-
-        
-        return Http::post($url, [
-            'access_token' => $this->accessToken,
-            'name' => $country_id->language . '-' .$country_id->short_code,
-            'adset_id' => $adSetId,
-            'creative' => [
-                'creative_id' => $creative_id
-            ],
-            'status' => 'PAUSED',
-        ]);
-    }
 
     // protected function uploadImage($imageUrl)
     // {
