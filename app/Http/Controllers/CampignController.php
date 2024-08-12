@@ -642,7 +642,7 @@ class CampignController extends Controller
             'images' => 'array|max:4',
             'language' => 'required|string',
         ]);
-
+        
         $campaign = Campign::find($id);
         $headline = GenerateHeadLines::where('campaign_id', $id)
             ->where('language', $request->language)
@@ -656,7 +656,6 @@ class CampignController extends Controller
         $oldAccountId = $headline->account_id;
         $isAccountIdChanged = $oldAccountId !== $newAccountId;
         $isLanguageChanged = $headline->language !== $language;
-        
         // dd($imagess ,$request->hasFile('images'));
         // Decode existing images if stored as JSON string
         $existingImages = json_decode($headline->images, true) ?? [];
@@ -675,7 +674,7 @@ class CampignController extends Controller
                 $imageUrls[] = $campaignImages;
     
                 // Upload the image to Facebook and get the hash
-                $imageHash = $this->uploadImage($campaignImages, $accountId);
+                $imageHash = $this->uploadImage($campaignImages, $newAccountId);
                 if ($imageHash) {
                     $imageHashes[] = $imageHash;
                 }
@@ -695,13 +694,13 @@ class CampignController extends Controller
                     GenerateHeadLines::where('campaign_id', $id)->update(['account_id' => $newAccountId]);
                 }
             }
-
+    // dd($allImages);
         if ($updateFields) {
             // Update all fields
             $headline->account_id = $newAccountId;
             $headline->language = $language;
-            $headline->images = json_encode($allImages);
-            $headline->hashes = json_encode($allHashes);
+            $headline->images = json_encode($imageUrls);
+            $headline->hashes = json_encode($imageHashes);
         }
 
         // Save changes
@@ -757,7 +756,7 @@ class CampignController extends Controller
     protected function uploadImage($imageUrl , $accountId)
     {
         $account_id = 'act_' . $accountId;
-        $accountId = AdCampaign::where('id' , $accountId)->first();
+        $accountId = AdCampaign::where('account_id' , $accountId)->first();
         $accounts = $accountId->act_account_id;
         // Download the image
         $tempImage = tempnam(sys_get_temp_dir(), 'img');

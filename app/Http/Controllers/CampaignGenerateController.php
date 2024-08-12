@@ -7,7 +7,7 @@ use App\Models\AdCampaign;
 use App\Models\Campign;
 use App\Models\CountryCampaign;
 use App\Models\Setting;
-use App\Models\GenerateHeadlines;
+use App\Models\GenerateHeadLines;
 use Illuminate\Support\Facades\Http;
 
 class CampaignGenerateController extends Controller
@@ -71,7 +71,7 @@ class CampaignGenerateController extends Controller
             }
             $result = array_filter($result);
 
-            $imageRecords = GenerateHeadlines::select('images' , 'hashes')->where('campaign_id', $id)->get();
+            $imageRecords = GenerateHeadLines::select('images' , 'hashes')->where('campaign_id', $id)->get();
 
             $allImagesUploaded = true;
             foreach ($imageRecords as $record) {
@@ -265,11 +265,11 @@ class CampaignGenerateController extends Controller
         $account_id = AdCampaign::where('act_account_id' , $account)->first();
         $country_id = CountryCampaign::where('name' , $country)->first();
         // $Data = GenerateHeadlines::where('campaign_id' , $cmapignID)->where('language' , $country_id->language)->where('account_id' , $account_id->id)->first();
-        $Data = GenerateHeadlines::where('campaign_id' , $cmapignID)->where('language' , $country_id->language)->first();
+        $Data = GenerateHeadLines::where('campaign_id' , $cmapignID)->where('language' , $country_id->language)->first();
         return [
-            'headline' => $Data->headline,
-            'primary_text' => $Data->primary_text,
-            'description' => $Data->description,
+            'headline' => $Data->headline ?? "",
+            'primary_text' => $Data->primary_text ?? "",
+            'description' => $Data->description ?? "",
             'images' => json_decode($Data->images, true), // Decode JSON to array
             'hashes' => json_decode($Data->hashes, true) 
         ];
@@ -281,7 +281,7 @@ class CampaignGenerateController extends Controller
         $campaign = Campign::where('id', $cmapignID)->first();
         $display_name = str_replace(" ", "-", $campaign->topic);
         $display_link = "https://{$display_name}.com";
-        $headline = $data['headline'];
+        $headline = $data['headline'] ?? "It's a headline";
         $tracking_url =  "https://flarequick.com/cf/r/669a9bc816aab80012aac85e?ad_id={{ad.id}}&adset_id={{adset.id}}&campaign_id={{campaign.id}}&ad_name={{ad.name}}&adset_name={{adset.name}}&campaign_name={{campaign.name}}&source={{site_source_name}}&placement={{placement}}";
         // Create carousel items
         $carouselItems = [];
