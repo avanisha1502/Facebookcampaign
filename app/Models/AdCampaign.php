@@ -13,4 +13,9 @@ class AdCampaign extends Model
 
     protected $fillable = ['account_id' , 'name' , 'ads' , 'campaigns' , 'act_account_id' , 'account_status'];
 
+    public function campaigns()
+    {
+        return $this->hasMany(CampaignReport::class, 'account_id', 'account_id');
+    }
+
 }

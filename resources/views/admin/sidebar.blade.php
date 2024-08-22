@@ -39,6 +39,13 @@
         </a>
     </div>
 
+    <div class="menu-item {{ (\Request::route()->getName()=='campaign-reporting' || \Request::route()->getName()=='campaign-reporting.filter' || \Request::route()->getName()=='campaign-reporting.show' || \Request::route()->getName()=='campaign.filter' || \Request::route()->getName()=='generate-headlines-show' || \Request::route()->getName() == 'generate-imageUpload') ? ' active' : '' }}">
+        <a href="{{ route('campaign-reporting') }}" class="menu-link">
+            <span class="menu-icon"><i class="fa fa-lg fa-fw me-2 fa-line-chart"></i> </span>
+            <span class="menu-text">{{ __('Ads Reporting') }}</span>
+        </a>
+    </div>
+
     <div class="menu-item {{ (\Request::route()->getName()=='setting.index' || \Request::route()->getName()=='add-campaign-name') ? ' active' : '' }}">
         <a href="{{ route('setting.index') }}" class="menu-link">
             <span class="menu-icon"><i class="fas fa-lg fa-fw me-2 fa-cog"></i></span>

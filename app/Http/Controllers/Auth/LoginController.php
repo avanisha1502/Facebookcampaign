@@ -44,6 +44,13 @@ class LoginController extends Controller
         return Socialite::driver('google')->redirect();
     }
 
+    public function redirectToFacebook()
+    {
+        // $facebookClientId = config('services.facebook.client_id');
+        // dd($facebookClientId , env('FACEBOOK_APP_ID'));
+        return Socialite::driver('facebook')->redirect();
+    }
+
 
     public function handleGoogleCallback()
     {
@@ -70,6 +77,30 @@ class LoginController extends Controller
                 return redirect()->intended('/home');
             }
         
+        } catch (Exception $e) {
+            dd($e->getMessage());
+        }
+    }
+
+    public function handleFacebookCallback()
+    {
+        try {
+            $user = Socialite::driver('facebook')->user();
+            $finduser = User::where('facebook_id', $user->id)->first();
+
+            if ($finduser) {
+                Auth::login($finduser);
+                return redirect()->intended('/home');
+            } else {
+                $newUser = User::updateOrCreate(['email' => $user->email], [
+                    'name' => $user->name,
+                    'facebook_id' => $user->id,
+                    'password' => encrypt($user->email)
+                ]);
+
+                Auth::login($newUser);
+                return redirect()->intended('/home');
+            }
         } catch (Exception $e) {
             dd($e->getMessage());
         }

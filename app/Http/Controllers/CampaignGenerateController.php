@@ -125,6 +125,13 @@ class CampaignGenerateController extends Controller
                 $campaignId = $campaign['id'] ?? null;
                 // hudfhdr-t1e-fb-ads
                 if ($campaignId) {
+                    \DB::table('campaign_adsets')->insert([
+                        'campaign_id' => $campaignId,
+                        'campaign_name' => $campaignName,
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ]);
+
                     $createdCampaigns[] = [
                         'name' => $campaignName,
                         'id' => $campaignId
@@ -138,6 +145,7 @@ class CampaignGenerateController extends Controller
 
 
              // Create Ad Sets for each group
+             $adSetIds = [];
              foreach ($createdCampaigns as $createdCampaign) {
                 $campaignName = strtolower($createdCampaign['name']);
                 foreach ($result as $group => $countriesInGroup) {
@@ -147,6 +155,7 @@ class CampaignGenerateController extends Controller
                         foreach ($countriesInGroup as $country) {
                           $adSetId = $this->createAdSetForGroup($createdCampaign['id'], $group, $country, $request);
                             if ($adSetId) {
+                                $adSetIds[] = $adSetId;
                                 $this->createAdsForAdSet($adSetId, $country, $request , $cmapignID);
                             }
                         }
@@ -156,6 +165,7 @@ class CampaignGenerateController extends Controller
     
             return response()->json([
                 'campaigns' => $createdCampaigns,
+                'adSetIds' => $adSetIds
             ]);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);

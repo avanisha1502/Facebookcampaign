@@ -11,6 +11,7 @@ use App\Http\Controllers\SettingController;
 use App\Http\Controllers\CountryCampaignController;
 use App\Http\Controllers\AdAccountController;
 use App\Http\Controllers\CampaignGenerateController;
+use App\Http\Controllers\CampaignReportController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -33,6 +34,9 @@ Route::group(['middleware' => 'check.activity'], function () {
 
     Route::get('auth/google', 'App\Http\Controllers\Auth\LoginController@redirectToGoogle')->name('auth.google');
     Route::get('auth/google/callback', 'App\Http\Controllers\Auth\LoginController@handleGoogleCallback');
+
+    Route::get('auth/facebook', 'App\Http\Controllers\Auth\LoginController@redirectToFacebook')->name('auth.facebook');
+    Route::get('auth/facebook/callback', 'App\Http\Controllers\Auth\LoginController@handleFacebookCallback');
 
     //Domain Add
     Route::get('/domain', [DomainController::class, 'index'])->name('domain.index')->middleware('auth.redirect');
@@ -117,5 +121,15 @@ Route::group(['middleware' => 'check.activity'], function () {
     Route::get('/pixels/{accountId}', [CampaignGenerateController::class, 'getPixelsByAccount'])->name('pixels.byAccount');
 
     // Route::get('/get-ads-accounts', [AdAccountController::class, 'getAdAccount'])->name('getadaccounts')->middleware('auth.redirect');
+
+
+    //Campaign Reporting
+    Route::get('/campaign-reporting', [CampaignReportController::class, 'index'])->name('campaign-reporting')->middleware('auth.redirect');
+    Route::get('/campaign-reporting-account', [CampaignReportController::class, 'account'])->name('campaign-reporting.Accounts')->middleware('auth.redirect');
+    Route::get('/campaign-reporting-show/{id}', [CampaignReportController::class, 'show'])->name('campaign-reporting.show')->middleware('auth.redirect');
+    Route::post('/campaign-reporting/generate', [CampaignReportController::class, 'campaignListforreport'])->name('campaignreport.generate');
+    Route::post('/campaign-reporting/save/{id?}', [CampaignReportController::class, 'saveReport'])->name('campaignreport.save');
+    //delete route
+    Route::delete('/delete-report/{id}', [CampaignReportController::class, 'deleteReport'])->name('delete-report')->middleware('auth.redirect');
 
 });
