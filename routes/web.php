@@ -27,7 +27,6 @@ use App\Http\Controllers\CampaignAllDetailsController;
 Route::group(['middleware' => 'check.activity'], function () {
     
     Route::get('/', function () {
-        phpinfo();
         return view('auth.login');
     });
 
