@@ -12,6 +12,8 @@ use App\Http\Controllers\CountryCampaignController;
 use App\Http\Controllers\AdAccountController;
 use App\Http\Controllers\CampaignGenerateController;
 use App\Http\Controllers\CampaignReportController;
+use App\Http\Controllers\CampaignAllDetailsController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -133,4 +135,16 @@ Route::group(['middleware' => 'check.activity'], function () {
     //delete route
     Route::delete('/delete-report/{id}', [CampaignReportController::class, 'deleteReport'])->name('delete-report')->middleware('auth.redirect');
 
+
+    //New cmapign detils add manually 
+    Route::get('/campaign-manually', [CampaignAllDetailsController::class, 'index'])->name('new-campaign-manually.index')->middleware('auth.redirect');
+    Route::get('/campaign-manually/create', [CampaignAllDetailsController::class, 'create'])->name('new-campaign-manually.create')->middleware('auth.redirect');
+    Route::post('/campaign-manually/store', [CampaignAllDetailsController::class, 'store'])->name('new-campaign-manually.store')->middleware('auth.redirect');
+    Route::get('/get-countries-by-group', [CampaignAllDetailsController::class, 'getCountriesByGroup'])->name('getCountriesByGroup')->middleware('auth.redirect');
+    Route::get('/get-country-details', [CampaignAllDetailsController::class, 'getCountryDetails'])->name('getCountryDetails')->middleware('auth.redirect');
+    Route::get('/campaign-manually/show/{id}', [CampaignAllDetailsController::class, 'show'])->name('new-campaign-manually.show')->middleware('auth.redirect');
+    Route::get('/campaign-manually/edit/{id}', [CampaignAllDetailsController::class, 'edit'])->name('new-campaign-manually.edit')->middleware('auth.redirect');
+    Route::put('/campaign-manually/update/{id}', [CampaignAllDetailsController::class, 'update'])->name('new-campaign-manually.update')->middleware('auth.redirect');
+    Route::delete('/campaign-manually/delete/{id}', [CampaignAllDetailsController::class, 'destroy'])->name('new-campaign-manually.destroy')->middleware('auth.redirect');
+    
 });

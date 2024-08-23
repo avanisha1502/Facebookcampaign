@@ -46,14 +46,19 @@
         </a>
     </div>
 
+    <div class="menu-item {{ (\Request::route()->getName()=='new-campaign-manually.index' || \Request::route()->getName()=='new-campaign-manually.create') || \Request::route()->getName()=='new-campaign-manually.edit' ? ' active' : '' }}">
+        <a href="{{ route('new-campaign-manually.index') }}" class="menu-link">
+            <span class="menu-icon"><i class="fas fa-laptop fa-lg fa-fw me-2 fa-laptop"></i></span>
+            <span class="menu-text">{{ __('Manual Campaign') }}</span>
+        </a>
+    </div>
+
     <div class="menu-item {{ (\Request::route()->getName()=='setting.index' || \Request::route()->getName()=='add-campaign-name') ? ' active' : '' }}">
         <a href="{{ route('setting.index') }}" class="menu-link">
             <span class="menu-icon"><i class="fas fa-lg fa-fw me-2 fa-cog"></i></span>
             <span class="menu-text">{{ __('Settings') }}</span>
         </a>
     </div>
-
-   
 
     {{-- adaccounts --}}
 
