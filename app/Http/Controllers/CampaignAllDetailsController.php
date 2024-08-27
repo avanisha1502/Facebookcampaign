@@ -68,7 +68,6 @@ class CampaignAllDetailsController extends Controller
      */
     public function store(Request $request)
     {
-
         $validatedData = $request->validate([
             'campaign_name' => 'required|string|max:255',
             'group' => 'required|string|max:255',
@@ -78,12 +77,22 @@ class CampaignAllDetailsController extends Controller
             'offer_url' => 'required', // validate that this is a valid URL
             'headline' => 'required|string|max:500', // assuming headlines are not too long
             'primary_text' => 'required|string|max:1000', // assuming primary text is not too long
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048' // validate image type and size
+            // 'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048' // validate image type and size
+            'files.*' => 'required|file|mimes:jpeg,png,jpg,gif,mp4,mov,avi,wmv|max:20480' // validate multiple files
         ]);
 
-        $image =$request->file('image');
-        $path = $image->store('campaign-manual-images', 'r2');
-        $campaignImages = "https://pub-fe8deb8da8714e919596347e9bf9bb3f.r2.dev/" . $path;
+        // Handle file uploads
+        $uploadedFiles = [];
+        if ($request->hasFile('files')) {
+            foreach ($request->file('files') as $file) {
+                $path = $file->store('campaign-manual-files', 'r2');
+                $uploadedFiles[] = "https://pub-fe8deb8da8714e919596347e9bf9bb3f.r2.dev/" . $path;
+            }
+        }
+
+        // $image =$request->file('image');
+        // $path = $image->store('campaign-manual-images', 'r2');
+        // $campaignImages = "https://pub-fe8deb8da8714e919596347e9bf9bb3f.r2.dev/" . $path;
 
         // Save the campaign data
         $campaign = new CampaignAllDetails();
@@ -95,7 +104,8 @@ class CampaignAllDetailsController extends Controller
         $campaign->offer_url = $request->input('offer_url');
         $campaign->headlines = $request->input('headline');
         $campaign->primary_text = $request->input('primary_text');
-        $campaign->image = $campaignImages; // Store the image path
+        // $campaign->image = $campaignImages; // Store the image path
+        $campaign->image = json_encode($uploadedFiles); // Store the paths as JSON
         $campaign->save();
 
         return redirect()->route('new-campaign-manually.index')->with('success', 'Campaign saved successfully!');
@@ -151,17 +161,32 @@ class CampaignAllDetailsController extends Controller
             'offer_url' => 'required', // validate that this is a valid URL
             'headline' => 'required|string|max:500', // assuming headlines are not too long
             'primary_text' => 'required|string|max:1000', // assuming primary text is not too long
+            
         ]);
 
-        if ($request->file('image') ) {
-            $image = $request->file('image');
-            $oldPath = str_replace("https://pub-fe8deb8da8714e919596347e9bf9bb3f.r2.dev/", "", $campaignAllDetails->image);
-            Storage::disk('r2')->delete($oldPath);
+        // if ($request->file('image') ) {
+        //     $image = $request->file('image');
+        //     $oldPath = str_replace("https://pub-fe8deb8da8714e919596347e9bf9bb3f.r2.dev/", "", $campaignAllDetails->image);
+        //     Storage::disk('r2')->delete($oldPath);
 
-            $path = $image->store('campaign-manual-images', 'r2');
-            $campaignImages = "https://pub-fe8deb8da8714e919596347e9bf9bb3f.r2.dev/" . $path;
+        //     $path = $image->store('campaign-manual-images', 'r2');
+        //     $campaignImages = "https://pub-fe8deb8da8714e919596347e9bf9bb3f.r2.dev/" . $path;
+        // } else {
+        //     $campaignImages = $campaignAllDetails->image;
+        // }
+
+        $uploadedFiles = [];
+
+        if ($request->hasFile('files')) {
+            foreach ($request->file('files') as $file) {
+                $oldPath = str_replace("https://pub-fe8deb8da8714e919596347e9bf9bb3f.r2.dev/", "", $campaignAllDetails->image);
+                Storage::disk('r2')->delete($oldPath);
+
+                $path = $file->store('campaign-manual-images', 'r2');
+                $uploadedFiles[] = "https://pub-fe8deb8da8714e919596347e9bf9bb3f.r2.dev/" . $path;
+            }
         } else {
-            $campaignImages = $campaignAllDetails->image;
+            $uploadedFiles[] = $campaignAllDetails->image;
         }
 
         $campaignAllDetails->campaign_name = $request->input('campaign_name');
@@ -172,7 +197,7 @@ class CampaignAllDetailsController extends Controller
         $campaignAllDetails->offer_url = $request->input('offer_url');
         $campaignAllDetails->headlines = $request->input('headline');
         $campaignAllDetails->primary_text = $request->input('primary_text');
-        $campaignAllDetails->image = $campaignImages; // Store the image path
+        $campaignAllDetails->image = json_encode($uploadedFiles);
         $campaignAllDetails->save();
 
         return redirect()->route('new-campaign-manually.index')->with('success', 'Campaign saved successfully!');

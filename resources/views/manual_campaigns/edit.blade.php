@@ -82,7 +82,22 @@
                                     @enderror
                                 </div>
                             </div>
+
                             <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label class="form-label">{{ __('Upload Image/Video') }}<span
+                                            class="text-danger">*</span></label>
+                                    <input type="file" class="form-control" name="files[]" multiple id="fileInput">
+                                    @error('files')
+                                        <span class="text-danger">{{ $message }}</span>
+                                    @enderror
+                                </div>
+                                <div class="col-md-12">
+                                    <div id="previewArea" class="row"></div>
+                                </div>
+                            </div>
+
+                            {{-- <div class="col-md-4">
                                 <div class="mb-3">
                                     <label class="form-label">{{ __('Image') }}<span class="text-danger">*</span></label>
                                     <input type="file" class="form-control" name="image"
@@ -91,7 +106,7 @@
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror
                                 </div>
-                            </div>
+                            </div> --}}
                             <div class="col-md-4">
                                 <div class="mb-3">
                                     <label class="form-label">{{ __('Offer URL') }}<span
@@ -194,7 +209,7 @@
                             },
                             success: function(response) {
                                 console.log('ddd');
-                                
+
                                 currentShortCode = response.short_code;
                                 currentLanguage = response.language;
 
@@ -281,5 +296,53 @@
                     populateShortCodesAndLanguages(currentCountry); // Call this function on page load
                 }
             });
+
+            document.addEventListener('DOMContentLoaded', function() {
+                const fileInput = document.getElementById('fileInput');
+
+                if (fileInput) {
+                    console.log('dddddd');
+                    
+                    fileInput.addEventListener('change', function(event) {
+                        const previewArea = document.getElementById('previewArea');
+                        previewArea.innerHTML = ''; // Clear the previous previews
+
+                        const files = event.target.files;
+                        if (files) {
+                            Array.from(files).forEach(file => {
+                                const fileReader = new FileReader();
+
+                                fileReader.onload = function(e) {
+                                    const previewElement = document.createElement('div');
+                                    previewElement.classList.add('col-md-3', 'mb-3');
+
+                                    if (file.type.startsWith('image/')) {
+                                        previewElement.innerHTML = `
+                                <img src="${e.target.result}" class="img-fluid" alt="Preview" />
+                                <button type="button" class="btn btn-danger btn-sm mt-2" onclick="removePreview(this)">Remove</button>
+                            `;
+                                    } else if (file.type.startsWith('video/')) {
+                                        previewElement.innerHTML = `
+                                <video controls autoplay loop class="img-fluid" alt="Preview">
+                                    <source src="${e.target.result}" type="${file.type}">
+                                </video>
+                                <button type="button" class="btn btn-danger btn-sm mt-2" onclick="removePreview(this)">Remove</button>
+                            `;
+                                    }
+
+                                    previewArea.appendChild(previewElement);
+                                };
+
+                                fileReader.readAsDataURL(file);
+                            });
+                        }
+                    });
+                }
+            });
+
+            function removePreview(button) {
+                const previewElement = button.parentElement;
+                previewElement.remove();
+            }
         </script>
     @endpush
