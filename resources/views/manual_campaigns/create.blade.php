@@ -73,17 +73,8 @@
                                     @enderror
                                 </div>
                             </div>
-                            <!--<div class="col-md-4">-->
-                            <!--    <div class="mb-3">-->
-                            <!--        <label class="form-label">{{ __('Image') }}<span class="text-danger">*</span></label>-->
-                            <!--        <input type="file" class="form-control" name="image" placeholder="Enter Image">-->
-                            <!--        @error('image')-->
-                            <!--            <span class="text-danger">{{ $message }}</span>-->
-                            <!--        @enderror-->
-                            <!--    </div>-->
-                            <!--</div>-->
                             
-                             <div class="col-md-4">
+                            <div class="col-md-4">
                                 <div class="mb-3">
                                     <label class="form-label">{{ __('Upload Image/Video') }}<span
                                             class="text-danger">*</span></label>
@@ -96,6 +87,17 @@
                                     <div id="previewArea" class="row"></div>
                                 </div>
                             </div>
+
+                            {{-- <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label class="form-label">{{ __('Image') }}<span class="text-danger">*</span></label>
+                                    <input type="file" class="form-control" name="image" placeholder="Enter Image">
+                                    @error('image')
+                                        <span class="text-danger">{{ $message }}</span>
+                                    @enderror
+                                </div>
+                            </div> --}}
+                            
                             <div class="col-md-4">
                                 <div class="mb-3">
                                     <label class="form-label">{{ __('Offer URL') }}<span
@@ -217,8 +219,9 @@
                 }
             });
         });
-        
-          document.addEventListener('DOMContentLoaded', function() {
+
+
+        document.addEventListener('DOMContentLoaded', function() {
                 const fileInput = document.getElementById('fileInput');
 
                 if (fileInput) {

@@ -82,6 +82,7 @@
                                     @enderror
                                 </div>
                             </div>
+
                             <div class="col-md-4">
                                 <div class="mb-3">
                                     <label class="form-label">{{ __('Upload Image/Video') }}<span
@@ -106,6 +107,17 @@
                             <!--        @enderror-->
                             <!--    </div>-->
                             <!--</div>-->
+                                  
+                            {{-- <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label class="form-label">{{ __('Image') }}<span class="text-danger">*</span></label>
+                                    <input type="file" class="form-control" name="image"
+                                        value="{{ $campaignAllDetails->image }}">
+                                    @error('image')
+                                        <span class="text-danger">{{ $message }}</span>
+                                    @enderror
+                                </div>
+                            </div> --}}
                             <div class="col-md-4">
                                 <div class="mb-3">
                                     <label class="form-label">{{ __('Offer URL') }}<span
@@ -208,7 +220,7 @@
                             },
                             success: function(response) {
                                 console.log('ddd');
-                                
+
                                 currentShortCode = response.short_code;
                                 currentLanguage = response.language;
 
@@ -295,7 +307,6 @@
                     populateShortCodesAndLanguages(currentCountry); // Call this function on page load
                 }
             });
-            
              document.addEventListener('DOMContentLoaded', function() {
                 const fileInput = document.getElementById('fileInput');
 
