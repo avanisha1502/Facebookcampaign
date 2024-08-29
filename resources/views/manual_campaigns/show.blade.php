@@ -44,12 +44,25 @@
                         <td class="hover-tooltip"  data-tooltip-position="bottom" data-tooltip="{{ $campaignAllDetails->primary_text }}">{{ $shortprimary_text }}</td>
                         <td>
                             <div class="image-container">
-                                        <img src="{{ $campaignAllDetails->image }}" alt="Image" class="img">
+                                        {{-- <img src="{{ $campaignAllDetails->image }}" alt="Image" class="img"> --}}
                                 {{-- @if($imageUrls && is_array($imageUrls))
                                     @foreach($imageUrls as $imageUrl)
                                         <img src="{{ $imageUrl }}" alt="Image" class="img">
                                     @endforeach
                                 @endif --}}
+                                   @if ($imageUrls && is_array($imageUrls))
+                                @foreach ($imageUrls as $mediaUrl)
+                                    @if (preg_match('/\.(jpg|jpeg|png|gif)$/i', $mediaUrl))
+                                        <img src="{{ $mediaUrl }}" alt="Image" class="img">
+                                    @elseif(preg_match('/\.(mp4|webm|ogg)$/i', $mediaUrl))
+                                        <video controls class="video" style="width: 117px; border-radius: 6px;">
+                                            <source src="{{ $mediaUrl }}" type="video/mp4">
+                                        </video>
+                                    @else
+                                        <p>Unsupported media type.</p>
+                                    @endif
+                                @endforeach
+                            @endif
                             </div>
                         </td>
                     </tr>
