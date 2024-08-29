@@ -74,9 +74,9 @@ class CampaignAllDetailsController extends Controller
             'country' => 'required|string|max:255',
             'short_code' => 'required|string|max:10',  // assuming short codes are not too long
             'language' => 'required|string|max:100', // assuming languages are not too long
-            'offer_url' => 'required', // validate that this is a valid URL
-            'headline' => 'required|string|max:500', // assuming headlines are not too long
-            'primary_text' => 'required|string|max:1000', // assuming primary text is not too long
+            // 'offer_url' => 'required', // validate that this is a valid URL
+            // 'headline' => 'required|string|max:500', // assuming headlines are not too long
+            // 'primary_text' => 'required|string|max:1000', // assuming primary text is not too long
             // 'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048' // validate image type and size
             'files.*' => 'required|file|mimes:jpeg,png,jpg,gif,mp4,mov,avi,wmv|max:20480' // validate multiple files
         ]);
@@ -158,9 +158,9 @@ class CampaignAllDetailsController extends Controller
             'country' => 'required|string|max:255',
             'short_code' => 'required|string|max:10',  // assuming short codes are not too long
             'language' => 'required|string|max:100', // assuming languages are not too long
-            'offer_url' => 'required', // validate that this is a valid URL
-            'headline' => 'required|string|max:500', // assuming headlines are not too long
-            'primary_text' => 'required|string|max:1000', // assuming primary text is not too long
+            // 'offer_url' => 'required', // validate that this is a valid URL
+            // 'headline' => 'required|string|max:500', // assuming headlines are not too long
+            // 'primary_text' => 'required|string|max:1000', // assuming primary text is not too long
             
         ]);
 
