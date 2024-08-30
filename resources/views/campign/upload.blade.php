@@ -50,15 +50,37 @@
         }
     </style>
     <div class="card">
+<<<<<<< HEAD
+=======
+
+>>>>>>> 16cb19a4160dbd4f26485253e1f831e96e9246e9
         <form action="{{ route('generate-imageUpload-store', $campaign->id) }}" method="POST" enctype="multipart/form-data"
             id="campaign-Image">
             @csrf
             <div class="card-body">
                 <div class="row">
+<<<<<<< HEAD
+=======
+
+                    {{-- <div class="col-md-4">
+                        <div class="form-group mb-3">
+                            <label for="language-select" class=" mb-2">Account ID:</label>
+                            <select id="account-select" class="form-select" name="account_id">
+                                @foreach ($accounts as $account)
+                                    <option value="{{ $account->id }}">{{ $account->name }} - {{ $account->account_id }}</option>
+                                @endforeach
+                            </select>
+                            @error('account_id')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
+                    </div> --}}
+>>>>>>> 16cb19a4160dbd4f26485253e1f831e96e9246e9
                     <div class="col-md-4">
                         <div class="custom-select-wrapper">
                             <label for="language-select" class=" mb-2">Account ID:</label>
                             <div class="custom-select">
+<<<<<<< HEAD
 
                                 <div class="custom-select__trigger"> <span>
                                         @if ($oldAccountId)
@@ -67,6 +89,9 @@
                                             Select an account
                                         @endif
                                     </span>
+=======
+                                <div class="custom-select__trigger"><span>Select an account</span>
+>>>>>>> 16cb19a4160dbd4f26485253e1f831e96e9246e9
                                     <div class="arrow"></div>
                                 </div>
                                 <div class="custom-options">
