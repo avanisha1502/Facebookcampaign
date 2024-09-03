@@ -143,9 +143,14 @@ Route::group(['middleware' => 'check.activity'], function () {
     Route::get('/get-country-details', [CampaignAllDetailsController::class, 'getCountryDetails'])->name('getCountryDetails')->middleware('auth.redirect');
     Route::get('/campaign-manually/show/{id}', [CampaignAllDetailsController::class, 'show'])->name('new-campaign-manually.show')->middleware('auth.redirect');
     Route::get('/campaign-manually/edit/{id}', [CampaignAllDetailsController::class, 'edit'])->name('new-campaign-manually.edit')->middleware('auth.redirect');
+    Route::get('/campaign-manually/adcreative/{id}', [CampaignAllDetailsController::class, 'AdsCreative'])->name('new-campaign-manually.adcreative')->middleware('auth.redirect');
+    Route::put('/campaign-manually/adcreativeupdate/{id}', [CampaignAllDetailsController::class, 'Adsupdate'])->name('new-campaign-manually.adcreativeupdate')->middleware('auth.redirect');
     Route::put('/campaign-manually/update/{id}', [CampaignAllDetailsController::class, 'update'])->name('new-campaign-manually.update')->middleware('auth.redirect');
     Route::delete('/campaign-manually/delete/{id}', [CampaignAllDetailsController::class, 'destroy'])->name('new-campaign-manually.destroy')->middleware('auth.redirect');
     Route::get('/generate-headlines-manual/{id}', [CampaignAllDetailsController::class , 'GenerateHeadLines'])->name('generate-headlines-manual')->middleware('auth.redirect');
     Route::post('/delete-image-manually', [CampaignAllDetailsController::class, 'deleteImageManually'])->name('delete.image');
+    Route::get('/download-image', [CampaignAllDetailsController::class, 'downloadImage'])->name('download.image');
+    Route::get('/AddCountries',  [CampaignAllDetailsController::class , 'AddCountries'])->name('AddCountries.create')->middleware('auth.redirect');
+    Route::post('/AddCountries-store', [CampaignAllDetailsController::class, 'storeAddCountries'])->name('store.AddCountries')->middleware('auth.redirect');
 
 });

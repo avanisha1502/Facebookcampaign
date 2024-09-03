@@ -3,20 +3,24 @@
 @section('contents')
     <div class="row gx-4">
         <div class="col-xl-12">
-            <div class="card mb-4">
-                <div class="card-header bg-none fw-bold">
+            {{-- <div class="card mb-4"> --}}
+            {{-- <div class="card-header bg-none fw-bold">
                     {{ __('Manual Campaign Add') }}
-                </div>
-                <form action="{{ route('new-campaign-manually.store') }}" method="POST" enctype="multipart/form-data">
-                    @csrf
+                </div> --}}
+            <form action="{{ route('new-campaign-manually.store') }}" method="POST" enctype="multipart/form-data">
+                @csrf
+                <div class="card mb-4">
+                    <div class="card-header bg-none fw-bold">
+                        {{ __('Manual Campaign Add') }}
+                    </div>
                     <div class="card-body">
                         <div class="row">
                             <div class="col-md-4">
                                 <div class="mb-3">
-                                    <label class="form-label"> {{ __('Topic Name') }} <span
+                                    <label class="form-label"> {{ __('Offer Name') }} <span
                                             class="text-danger">*</span></label>
                                     <input type="text" class="form-control" name="topic_name"
-                                        placeholder="Enter Topic Name">
+                                        placeholder="Enter Offer Name">
                                     @error('topic_name')
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror
@@ -41,16 +45,16 @@
                                     <label class="form-label">{{ __('Pixel') }}<span class="text-danger">*</span></label>
                                     <select class="form-control" id="Pixel" name="pixel">
                                         <option value="">{{ __('Select Pixel') }}</option>
-                                        <option name="a1" value="a1"> {{ __('A1') }} </option>
-                                        <option name="a2" value="a2"> {{ __('A2') }} </option>
-                                        <option name="a3" value="a3"> {{ __('A3') }} </option>
-                                        <option name="a4" value="a4"> {{ __('A4') }} </option>
-                                        <option name="a5" value="a5"> {{ __('A5') }} </option>
-                                        <option name="a6" value="a6"> {{ __('A6') }} </option>
-                                        <option name="a7" value="a7"> {{ __('A7') }} </option>
-                                        <option name="a8" value="a8"> {{ __('A8') }} </option>
-                                        <option name="a9" value="a9"> {{ __('A9') }} </option>
-                                        <option name="a10" value="a10"> {{ __('A10') }} </option>
+                                        <option name="a1" value="a1"> {{ __('A1 (Healthy)') }} </option>
+                                        <option name="a2" value="a2"> {{ __('A2 (Jobs)') }} </option>
+                                        <option name="a3" value="a3"> {{ __('A3 (Service)') }} </option>
+                                        <option name="a4" value="a4"> {{ __('A4 (Auto)') }} </option>
+                                        <option name="a5" value="a5"> {{ __('A5 (Home&Garden)') }} </option>
+                                        <option name="a6" value="a6"> {{ __('A6 (Other)') }} </option>
+                                        <option name="a7" value="a7"> {{ __('A7 (Dating)') }} </option>
+                                        <option name="a8" value="a8"> {{ __('A8 (Eduction)') }} </option>
+                                        <option name="a9" value="a9"> {{ __('A9 (Finance)') }} </option>
+                                        <option name="a10" value="a10"> {{ __('A10 (Insurance)') }} </option>
 
                                     </select>
                                     @error('pixel')
@@ -87,19 +91,18 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="mb-3">
-                                    <label class="form-label"> {{ __('Campaign Name') }} <span
-                                            class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" name="campaign_name"
-                                        placeholder="Enter Campaign Name" readonly>
-                                    @error('campaign_name')
-                                        <span class="text-danger">{{ $message }}</span>
-                                    @enderror
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="mb-3">
-                                    <label class="form-label">{{ __('Group') }}<span
-                                            class="text-danger">*</span></label>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <label class="form-label">{{ __('Group') }}<span
+                                                    class="text-danger">*</span></label>
+                                        </div>
+                                        <div class="col-md-6 text-align-end mb-1">
+                                            <a class="btn btn-primary btn-sm" href="#" data-size="md"
+                                                data-ajax-popup="true" data-url="{{ route('AddCountries.create') }}"
+                                                data-title="{{ __('Add New Group  ') }}">
+                                                <i class="fa fa-plus-circle fa-fw "></i> </a>
+                                        </div>
+                                    </div>
                                     <select class="form-control" id="groupSelect" name="group">
                                         <option value="">Select Group</option>
                                         @foreach ($uniqueGroups as $group)
@@ -113,8 +116,18 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="mb-3">
-                                    <label class="form-label">{{ __('Country') }}<span
-                                            class="text-danger">*</span></label>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <label class="form-label">{{ __('Country') }}<span
+                                                    class="text-danger">*</span></label>
+                                        </div>
+                                        <div class="col-md-6 text-align-end mb-1">
+                                            <a class="btn btn-primary btn-sm" href="#" data-size="md"
+                                                data-ajax-popup="true" data-url="{{ route('AddCountries.create') }}"
+                                                data-title="{{ __('Add New Country') }}">
+                                                <i class="fa fa-plus-circle fa-fw "></i> </a>
+                                        </div>
+                                    </div>
                                     <select class="form-control" id="countrySelect" name="country">
                                         <option value="">Select Country</option>
                                     </select>
@@ -125,8 +138,19 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="mb-3">
-                                    <label class="form-label">{{ __('Short Code') }}<span
-                                            class="text-danger">*</span></label>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <label class="form-label">{{ __('Short Code') }}<span
+                                                    class="text-danger">*</span></label>
+                                        </div>
+                                        <div class="col-md-6 text-align-end mb-1">
+                                            <a class="btn btn-primary btn-sm" href="#" data-size="md"
+                                                data-ajax-popup="true" data-url="{{ route('AddCountries.create') }}"
+                                                data-title="{{ __('Add New Short Code') }}">
+                                                <i class="fa fa-plus-circle fa-fw "></i> </a>
+                                        </div>
+                                    </div>
+
                                     <select class="form-control" id="shortCodeSelect" name="short_code">
                                         <option value="">Select Short Code</option>
                                     </select>
@@ -135,12 +159,21 @@
                                     @enderror
                                 </div>
                             </div>
-                        </div>
-                        <div class="row">
                             <div class="col-md-4">
                                 <div class="mb-3">
-                                    <label class="form-label">{{ __('Language') }}<span
-                                            class="text-danger">*</span></label>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <label class="form-label">{{ __('Language') }}<span
+                                                    class="text-danger">*</span></label>
+                                        </div>
+                                        <div class="col-md-6 text-align-end mb-1">
+                                            <a class="btn btn-primary btn-sm" href="#" data-size="md"
+                                                data-ajax-popup="true" data-url="{{ route('AddCountries.create') }}"
+                                                data-title="{{ __('Add New Language') }}">
+                                                <i class="fa fa-plus-circle fa-fw "></i> </a>
+                                        </div>
+                                    </div>
+
                                     <select class="form-control" id="languageSelect" name="language">
                                         <option value="">Select Language</option>
                                     </select>
@@ -149,7 +182,32 @@
                                     @enderror
                                 </div>
                             </div>
-
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label class="form-label"> {{ __('Campaign Name') }} <span
+                                            class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" name="campaign_name"
+                                        placeholder="Enter Campaign Name">
+                                    @error('campaign_name')
+                                        <span class="text-danger">{{ $message }}</span>
+                                    @enderror
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-4 mr-3">
+                        <div class="col-md-12 text-end ">
+                            <button type="submit" class="btn btn-primary">{{ __('Add Manual Campaign') }}</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            {{-- <div class="card mb-4">
+                    <div class="card-header bg-none fw-bold">
+                        {{ __('Ads Section') }}
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
                             <div class="col-md-4">
                                 <div class="mb-3">
                                     <label class="form-label">{{ __('Upload Image/Video') }}<span
@@ -164,17 +222,8 @@
                                 </div>
                             </div>
 
-                            {{-- <div class="col-md-4">
-                                <div class="mb-3">
-                                    <label class="form-label">{{ __('Image') }}<span class="text-danger">*</span></label>
-                                    <input type="file" class="form-control" name="image" placeholder="Enter Image">
-                                    @error('image')
-                                        <span class="text-danger">{{ $message }}</span>
-                                    @enderror
-                                </div>
-                            </div> --}}
 
-                            <div class="col-md-4">
+                            <div class="col-md-8">
                                 <div class="mb-3">
                                     <label class="form-label">{{ __('Offer URL') }}<span
                                             class="text-danger">*</span></label>
@@ -205,16 +254,11 @@
                                     @enderror
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-md-12 text-end ">
-                                    <button type="submit"
-                                        class="btn btn-primary">{{ __('Add Manual Campaign') }}</button>
-                                </div>
-                            </div>
+
                         </div>
                     </div>
-                </form>
-            </div>
+                </div> --}}
+            {{-- </div> --}}
         </div>
     </div>
 @endsection
@@ -232,9 +276,13 @@
                             group: group
                         },
                         success: function(response) {
+                            // Clear and populate country and language selects
                             $('#countrySelect').empty();
                             $('#shortCodeSelect').empty();
                             $('#languageSelect').empty();
+
+                            var firstShortCode = null;
+
                             $.each(response, function(index, country) {
                                 $('#countrySelect').append(
                                     '<option value="' + country.name +
@@ -244,6 +292,10 @@
                                     '</option>'
                                 );
 
+                                // Set the first short code found
+                                if (firstShortCode === null) {
+                                    firstShortCode = country.short_code;
+                                }
                                 $('#shortCodeSelect').append(
                                     '<option value="' + country.short_code + '">' +
                                     country.short_code + '</option>'
@@ -254,9 +306,22 @@
                                     country.language + '</option>'
                                 );
                             });
+
+                            // Populate short code dropdown and set its value
+                            if (firstShortCode) {
+                                $('#shortCodeSelect').val(
+                                    firstShortCode
+                                ); // Automatically select the first short code
+
+                                // Trigger a change event to update the campaign name
+                                $('#shortCodeSelect').trigger('change');
+                            }
+
+
                         }
                     });
                 } else {
+                    // Clear the selects if no group is selected
                     $('#countrySelect').empty().append('<option value="">Select Country</option>');
                     $('#shortCodeSelect').empty().append('<option value="">Select Short Code</option>');
                     $('#languageSelect').empty().append('<option value="">Select Language</option>');
@@ -276,6 +341,7 @@
                         success: function(response) {
                             // Populate Short Code Dropdown
                             $('#shortCodeSelect').empty();
+                            var firstShortCode = null;
                             $.each(response.all_short_codes, function(index,
                                 short_code) {
                                 $('#shortCodeSelect').append(
@@ -286,7 +352,19 @@
                                     ) +
                                     '>' + short_code + '</option>'
                                 );
+                                if (firstShortCode === null) {
+                                    firstShortCode = response.short_code;
+                                }
                             });
+
+                            if (firstShortCode) {
+                                $('#shortCodeSelect').val(
+                                    firstShortCode
+                                ); // Automatically select the first short code
+
+                                // Trigger a change event to update the campaign name
+                                $('#shortCodeSelect').trigger('change');
+                            }
 
                             // Populate Language Dropdown
                             $('#languageSelect').empty();
@@ -310,76 +388,97 @@
             });
         });
 
+        $(document).ready(function() {
+            // Function to update the campaign name
+            function updateCampaignName() {
+                const topicNameInput = $('input[name="topic_name"]').val();
+                const strategySelect = $('select[name="strategy"]').val();
+                const pixelSelect = $('select[name="pixel"]').val();
+                const feedProvideSelect = $('select[name="feed_provide"]').val();
+                const customFieldInput = $('input[name="custom_field"]').val();
+                const groupFieldInput = $('#groupSelect').val();
+                const shortcodeFieldInput = $('#shortCodeSelect').val();
+                const campaignNameInput = $('input[name="campaign_name"]');
 
-        document.addEventListener('DOMContentLoaded', function() {
-            const fileInput = document.getElementById('fileInput');
-
-            if (fileInput) {
-                console.log('dddddd');
-
-                fileInput.addEventListener('change', function(event) {
-                    const previewArea = document.getElementById('previewArea');
-                    previewArea.innerHTML = ''; // Clear the previous previews
-
-                    const files = event.target.files;
-                    if (files) {
-                        Array.from(files).forEach(file => {
-                            const fileReader = new FileReader();
-
-                            fileReader.onload = function(e) {
-                                const previewElement = document.createElement('div');
-                                previewElement.classList.add('col-md-3', 'mb-3');
-
-                                if (file.type.startsWith('image/')) {
-                                    previewElement.innerHTML = `
-                                <img src="${e.target.result}" class="img-fluid" alt="Preview" />
-                                <button type="button" class="btn btn-danger btn-sm mt-2" onclick="removePreview(this)">Remove</button>
-                            `;
-                                } else if (file.type.startsWith('video/')) {
-                                    previewElement.innerHTML = `
-                                <video controls autoplay loop class="img-fluid" alt="Preview">
-                                    <source src="${e.target.result}" type="${file.type}">
-                                </video>
-                                <button type="button" class="btn btn-danger btn-sm mt-2" onclick="removePreview(this)">Remove</button>
-                            `;
-                                }
-
-                                previewArea.appendChild(previewElement);
-                            };
-
-                            fileReader.readAsDataURL(file);
-                        });
-                    }
-                });
-            }
-        });
-
-        function removePreview(button) {
-            const previewElement = button.parentElement;
-            previewElement.remove();
-        }
-
-        document.addEventListener('DOMContentLoaded', function() {
-            const topicNameInput = document.querySelector('input[name="topic_name"]');
-            const strategySelect = document.querySelector('select[name="strategy"]');
-            const pixelSelect = document.querySelector('select[name="pixel"]');
-            const feedProvideSelect = document.querySelector('select[name="feed_provide"]');
-            const customFieldInput = document.querySelector('input[name="custom_field"]');
-            const campaignNameInput = document.querySelector('input[name="campaign_name"]');
-
-            if (topicNameInput && strategySelect && pixelSelect && feedProvideSelect && customFieldInput &&
-                campaignNameInput) {
-                const updateCampaignName = () => {
-                    campaignNameInput.value =
-                        `${topicNameInput.value}-${strategySelect.value}-${pixelSelect.value}-${feedProvideSelect.value}-${customFieldInput.value}`;
+                const capitalizeWords = (str) => {
+                    return str.split(' ')
+                        .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+                        .join(' ');
                 };
 
-                topicNameInput.addEventListener('input', updateCampaignName);
-                strategySelect.addEventListener('change', updateCampaignName);
-                pixelSelect.addEventListener('change', updateCampaignName);
-                feedProvideSelect.addEventListener('change', updateCampaignName);
-                customFieldInput.addEventListener('input', updateCampaignName);
+                const topicName = capitalizeWords(topicNameInput);
+                const strategy = strategySelect.toUpperCase();
+                const pixel = pixelSelect.toUpperCase();
+                const feedProvide = feedProvideSelect.toUpperCase();
+                const customField = customFieldInput.toUpperCase();
+                const groupProvide = `[${groupFieldInput.toUpperCase()}]`;
+                const shortProvide = `[${shortcodeFieldInput.toUpperCase()}]`;
+
+                campaignNameInput.val(
+                    `${topicName} - ${shortProvide} - ${groupProvide} - ${strategy} - ${pixel} - ${feedProvide} - ${customField}`
+                );
             }
+
+            // Handle short code selection change
+            $('#shortCodeSelect').on('change', function() {
+                updateCampaignName();
+            });
+
+            // Initialize campaign name on page load if fields have values
+            if ($('input[name="topic_name"]').val() || $('#groupSelect').val() || $('#shortCodeSelect').val() || $(
+                    'countrySelect').val()) {
+                updateCampaignName();
+            }
+
+            // Also update campaign name if any other fields change
+            $('select[name="strategy"], select[name="pixel"], select[name="feed_provide"], input[name="custom_field"] , input[name="topic_name"]')
+                .on('change input', function() {
+                    updateCampaignName();
+                });
         });
+
+       
+
+
+        // document.addEventListener('DOMContentLoaded', function() {
+        //     const topicNameInput = document.querySelector('input[name="topic_name"]');
+        //     const strategySelect = document.querySelector('select[name="strategy"]');
+        //     const pixelSelect = document.querySelector('select[name="pixel"]');
+        //     const feedProvideSelect = document.querySelector('select[name="feed_provide"]');
+        //     const customFieldInput = document.querySelector('input[name="custom_field"]');
+        //     const groupFieldInput = document.querySelector('select[name="group"]');
+        //     const shortcodeFieldInput = document.querySelector('select[name="short_code"]');
+        //     const campaignNameInput = document.querySelector('input[name="campaign_name"]');
+        //     if (topicNameInput && strategySelect && pixelSelect && feedProvideSelect && customFieldInput &&
+        //         groupFieldInput && shortcodeFieldInput &&
+        //         campaignNameInput) {
+        //         const updateCampaignName = () => {
+        //             const capitalizeWords = (str) => {
+        //                 return str.split(' ')
+        //                     .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+        //                     .join(' ');
+        //             };
+
+        //             const topicName = capitalizeWords(topicNameInput.value);
+        //             const strategy = strategySelect.value.toUpperCase();
+        //             const pixel = pixelSelect.value.toUpperCase();
+        //             const feedProvide = feedProvideSelect.value.toUpperCase();
+        //             const customField = customFieldInput.value.toUpperCase();
+        //             const groupProvide = `[${groupFieldInput.value.toUpperCase()}]`;
+        //             const shortProvide = `[${shortcodeFieldInput.value.toUpperCase()}]`;
+
+        //             campaignNameInput.value =
+        //                 `${topicName} - ${shortProvide} - ${groupProvide} - ${strategy} - ${pixel} - ${feedProvide} - ${customField}`;
+        //         };
+
+        //         topicNameInput.addEventListener('input', updateCampaignName);
+        //         strategySelect.addEventListener('change', updateCampaignName);
+        //         pixelSelect.addEventListener('change', updateCampaignName);
+        //         feedProvideSelect.addEventListener('change', updateCampaignName);
+        //         customFieldInput.addEventListener('input', updateCampaignName);
+        //         groupFieldInput.addEventListener('change', updateCampaignName);
+        //         shortcodeFieldInput.addEventListener('change', updateCampaignName);
+        //     }
+        // });
     </script>
 @endpush

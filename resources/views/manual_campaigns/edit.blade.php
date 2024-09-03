@@ -22,7 +22,7 @@
                         <div class="row">
                             <div class="col-md-4">
                                 <div class="mb-3">
-                                    <label class="form-label"> {{ __('Topic Name') }} <span
+                                    <label class="form-label"> {{ __('Offer Name') }} <span
                                             class="text-danger">*</span></label>
                                     <input type="text" class="form-control" name="topic_name"
                                         value="{{ $campaignAllDetails->topic_name }}">
@@ -119,21 +119,20 @@
                                     @enderror
                                 </div>
                             </div>
-
                             <div class="col-md-4">
                                 <div class="mb-3">
-                                    <label class="form-label"> {{ __('Campaign Name') }} <span
-                                            class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" name="campaign_name"
-                                        placeholder="Enter Campaign Name" value="{{ $campaignAllDetails->campaign_name }}">
-                                    @error('campaign_name')
-                                        <span class="text-danger">{{ $message }}</span>
-                                    @enderror
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="mb-3">
-                                    <label class="form-label">{{ __('Group') }}<span class="text-danger">*</span></label>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <label class="form-label">{{ __('Group') }}<span
+                                                    class="text-danger">*</span></label>
+                                        </div>
+                                        <div class="col-md-6 text-align-end mb-1">
+                                            <a class="btn btn-primary btn-sm" href="#" data-size="md"
+                                                data-ajax-popup="true" data-url="{{ route('AddCountries.create') }}"
+                                                data-title="{{ __('Add New Group  ') }}">
+                                                <i class="fa fa-plus-circle fa-fw "></i> </a>
+                                        </div>
+                                    </div>
                                     <select class="form-control" id="groupSelect" name="group">
                                         <option value="">Select Group</option>
                                         @foreach ($uniqueGroups as $group)
@@ -149,7 +148,18 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="mb-3">
-                                    <label class="form-label">{{ __('Country') }}<span class="text-danger">*</span></label>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <label class="form-label">{{ __('Country') }}<span
+                                                    class="text-danger">*</span></label>
+                                        </div>
+                                        <div class="col-md-6 text-align-end mb-1">
+                                            <a class="btn btn-primary btn-sm" href="#" data-size="md"
+                                                data-ajax-popup="true" data-url="{{ route('AddCountries.create') }}"
+                                                data-title="{{ __('Add New Country') }}">
+                                                <i class="fa fa-plus-circle fa-fw "></i> </a>
+                                        </div>
+                                    </div>
                                     <select class="form-control" id="countrySelect" name="country">
                                         <option value="">Select Country</option>
                                         @foreach ($allCountries as $country)
@@ -166,8 +176,18 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="mb-3">
-                                    <label class="form-label">{{ __('Short Code') }}<span
-                                            class="text-danger">*</span></label>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <label class="form-label">{{ __('Short Code') }}<span
+                                                    class="text-danger">*</span></label>
+                                        </div>
+                                        <div class="col-md-6 text-align-end mb-1">
+                                            <a class="btn btn-primary btn-sm" href="#" data-size="md"
+                                                data-ajax-popup="true" data-url="{{ route('AddCountries.create') }}"
+                                                data-title="{{ __('Add New Short Code') }}">
+                                                <i class="fa fa-plus-circle fa-fw "></i> </a>
+                                        </div>
+                                    </div>
                                     <select class="form-control" id="shortCodeSelect" name="short_code">
                                         <option value="">Select Short Code</option>
                                     </select>
@@ -176,16 +196,38 @@
                                     @enderror
                                 </div>
                             </div>
-                        </div>
-                        <div class="row">
                             <div class="col-md-4">
                                 <div class="mb-3">
-                                    <label class="form-label">{{ __('Language') }}<span
-                                            class="text-danger">*</span></label>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <label class="form-label">{{ __('Language') }}<span
+                                                    class="text-danger">*</span></label>
+                                        </div>
+                                        <div class="col-md-6 text-align-end mb-1">
+                                            <a class="btn btn-primary btn-sm" href="#" data-size="md"
+                                                data-ajax-popup="true" data-url="{{ route('AddCountries.create') }}"
+                                                data-title="{{ __('Add New Language') }}">
+                                                <i class="fa fa-plus-circle fa-fw "></i> </a>
+                                        </div>
+                                    </div>
                                     <select class="form-control" id="languageSelect" name="language">
                                         <option value="">Select Language</option>
                                     </select>
                                     @error('language')
+                                        <span class="text-danger">{{ $message }}</span>
+                                    @enderror
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label class="form-label"> {{ __('Campaign Name') }} <span
+                                            class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" name="campaign_name"
+                                        placeholder="Enter Campaign Name"
+                                        value="{{ $campaignAllDetails->campaign_name }}">
+                                    @error('campaign_name')
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror
                                 </div>
@@ -237,7 +279,7 @@
                                 </div>
                             </div> --}}
 
-                            <div class="col-md-4">
+                            {{-- <div class="col-md-4">
                                 <div class="mb-3">
                                     <label class="form-label">{{ __('Upload Image/Video') }}<span
                                             class="text-danger">*</span></label>
@@ -269,7 +311,7 @@
                                         @endif
                                     </div>
                                 </div>
-                            </div>
+                            </div> --}}
 
 
 
@@ -283,7 +325,7 @@
                                     @enderror
                                 </div>
                             </div> --}}
-                            <div class="col-md-4">
+                            {{-- <div class="col-md-4">
                                 <div class="mb-3">
                                     <label class="form-label">{{ __('Offer URL') }}<span
                                             class="text-danger">*</span></label>
@@ -312,7 +354,7 @@
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror
                                 </div>
-                            </div>
+                            </div> --}}
                             <div class="row">
                                 <div class="col-md-12 text-end ">
                                     <button type="submit"
@@ -493,6 +535,7 @@
                                 $('#countrySelect').empty();
                                 $('#shortCodeSelect').empty();
                                 $('#languageSelect').empty();
+                                var firstShortCode = null;
                                 $.each(response, function(index, country) {
                                     $('#countrySelect').append(
                                         '<option value="' + country.name +
@@ -517,7 +560,20 @@
                                             '') +
                                         '>' + country.language + '</option>'
                                     );
+
+                                    if (firstShortCode === null) {
+                                        firstShortCode = country.short_code;
+                                    }
                                 });
+
+                                if (firstShortCode) {
+                                    $('#shortCodeSelect').val(
+                                        firstShortCode
+                                    ); // Automatically select the first short code
+
+                                    // Trigger a change event to update the campaign name
+                                    $('#shortCodeSelect').trigger('change');
+                                }
                                 // Preselect country and trigger change event to populate short codes and languages
                                 // $('#countrySelect').val(currentCountry).trigger('change');
                             }
@@ -555,6 +611,7 @@
                                 // Populate Short Code
                                 $('#shortCodeSelect').empty();
                                 $('#languageSelect').empty();
+                                var firstShortCode = null;
                                 $.each(response.all_short_codes, function(index, short_code) {
                                     $('#shortCodeSelect').append(
                                         '<option value="' + short_code +
@@ -562,10 +619,20 @@
                                             '') +
                                         '>' + short_code + '</option>'
                                     );
+
+                                    if (firstShortCode === null) {
+                                        firstShortCode = response.short_code;
+                                    }
                                 });
+                                if (firstShortCode) {
+                                    $('#shortCodeSelect').val(
+                                        firstShortCode
+                                    ); // Automatically select the first short code
 
+                                    // Trigger a change event to update the campaign name
+                                    $('#shortCodeSelect').trigger('change');
+                                }
                                 // Populate Language
-
                                 $.each(response.all_languages, function(index, language) {
                                     $('#languageSelect').append(
                                         '<option value="' + language + '"' +
@@ -722,7 +789,7 @@
                             },
                             body: JSON.stringify({
                                 url: url,
-                                manuallycampaignId : manuallycampaignId
+                                manuallycampaignId: manuallycampaignId
                             })
                         })
                         .then(response => response.json())
@@ -741,87 +808,6 @@
                     previewElement.remove();
                 }
             }
-            // document.addEventListener('DOMContentLoaded', function() {
-            //     const fileInput = document.getElementById('fileInput');
-
-            //     // Parse existing images from the server
-            //     const existingImages = @json($campaignAllDetails->image ?? '[]');
-
-            //     // Ensure existingImages is an array
-            //     const imagesArray = Array.isArray(existingImages) ? existingImages : [];
-
-            //     const previewArea = document.getElementById('previewArea');
-
-            //     if (fileInput) {
-
-            //         // Function to render existing images/videos
-            //         function renderExistingPreviews() {
-            //             if (imagesArray.length > 0) {
-            //                 imagesArray.forEach(url => {
-            //                     const previewElement = document.createElement('div');
-            //                     previewElement.classList.add('col-md-3', 'mb-3');
-
-            //                     if (url.match(/\.(mp4|webm|ogg)$/i)) {
-            //                         previewElement.innerHTML = `
-    //                 <video controls autoplay loop class="img-fluid" alt="Preview">
-    //                     <source src="${url}" type="video/mp4">
-    //                 </video>
-    //                 <button type="button" class="btn btn-danger btn-sm mt-2" onclick="removePreview(this)">Remove</button>
-    //             `;
-            //                     } else {
-            //                         previewElement.innerHTML = `
-    //                 <img src="${url}" class="img-fluid" alt="Preview" />
-    //                 <button type="button" class="btn btn-danger btn-sm mt-2" onclick="removePreview(this)">Remove</button>
-    //             `;
-            //                     }
-
-            //                     previewArea.appendChild(previewElement);
-            //                 });
-            //             }
-            //         }
-
-            //         // Render existing previews on page load
-            //         renderExistingPreviews();
-
-            //         fileInput.addEventListener('change', function(event) {
-            //             const files = event.target.files;
-            //             if (files) {
-            //                 Array.from(files).forEach(file => {
-            //                     const fileReader = new FileReader();
-
-            //                     fileReader.onload = function(e) {
-            //                         const previewElement = document.createElement('div');
-            //                         previewElement.classList.add('col-md-3', 'mb-3');
-
-            //                         if (file.type.startsWith('image/')) {
-            //                             previewElement.innerHTML = `
-    //                     <img src="${e.target.result}" class="img-fluid" alt="Preview" style="height:75px !important; border-radius: 15px;" />
-    //                     <button type="button" class="btn btn-danger btn-sm mt-2" onclick="removePreview(this)">Remove</button>
-    //                 `;
-            //                         } else if (file.type.startsWith('video/')) {
-            //                             previewElement.innerHTML = `
-    //                     <video controls autoplay loop class="img-fluid" alt="Preview">
-    //                         <source src="${e.target.result}" type="${file.type}">
-    //                     </video>
-    //                     <button type="button" class="btn btn-danger btn-sm mt-2" onclick="removePreview(this)">Remove</button>
-    //                 `;
-            //                         }
-
-            //                         previewArea.appendChild(previewElement);
-            //                     };
-
-            //                     fileReader.readAsDataURL(file);
-            //                 });
-            //             }
-            //         });
-            //     }
-            // });
-
-            // function removePreview(button) {
-            //     const previewElement = button.parentElement;
-            //     previewElement.remove();
-            // }
-
 
             document.addEventListener('DOMContentLoaded', function() {
                 const topicNameInput = document.querySelector('input[name="topic_name"]');
@@ -848,6 +834,55 @@
                     feedProvideSelect.addEventListener('change', updateCampaignName);
                     customFieldInput.addEventListener('input', updateCampaignName);
                 }
+            });
+
+            $(document).ready(function() {
+                // Function to update the campaign name
+                function updateCampaignName() {
+                    const topicNameInput = $('input[name="topic_name"]').val();
+                    const strategySelect = $('select[name="strategy"]').val();
+                    const pixelSelect = $('select[name="pixel"]').val();
+                    const feedProvideSelect = $('select[name="feed_provide"]').val();
+                    const customFieldInput = $('input[name="custom_field"]').val();
+                    const groupFieldInput = $('#groupSelect').val();
+                    const shortcodeFieldInput = $('#shortCodeSelect').val();
+                    const campaignNameInput = $('input[name="campaign_name"]');
+
+                    const capitalizeWords = (str) => {
+                        return str.split(' ')
+                            .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+                            .join(' ');
+                    };
+
+                    const topicName = capitalizeWords(topicNameInput);
+                    const strategy = strategySelect.toUpperCase();
+                    const pixel = pixelSelect.toUpperCase();
+                    const feedProvide = feedProvideSelect.toUpperCase();
+                    const customField = customFieldInput.toUpperCase();
+                    const groupProvide = `[${groupFieldInput.toUpperCase()}]`;
+                    const shortProvide = `[${shortcodeFieldInput.toUpperCase()}]`;
+
+                    campaignNameInput.val(
+                        `${topicName} - ${shortProvide} - ${groupProvide} - ${strategy} - ${pixel} - ${feedProvide} - ${customField}`
+                    );
+                }
+
+                // Handle short code selection change
+                $('#shortCodeSelect').on('change', function() {
+                    updateCampaignName();
+                });
+
+                // Initialize campaign name on page load if fields have values
+                if ($('input[name="topic_name"]').val() || $('#groupSelect').val() || $('#shortCodeSelect').val() || $(
+                        'countrySelect').val()) {
+                    updateCampaignName();
+                }
+
+                // Also update campaign name if any other fields change
+                $('select[name="strategy"], select[name="pixel"], select[name="feed_provide"], input[name="custom_field"] , input[name="topic_name"]')
+                    .on('change input', function() {
+                        updateCampaignName();
+                    });
             });
         </script>
     @endpush

@@ -742,20 +742,21 @@ input:checked+.slider:before {
   border: none;
 }
 
-.progress { 
-  display: none; 
-  margin-top: 20px; 
-  background-color: #f0f0f0; 
-  border-radius: 10px; 
+.progress {
+  display: none;
+  margin-top: 20px;
+  background-color: #f0f0f0;
+  border-radius: 10px;
   overflow: hidden;
 }
-.progress-bar { 
-  width: 0; 
-  height: 20px; 
-  background-color: #4CAF50; 
-  text-align: center; 
-  line-height: 20px; 
-  color: white; 
+
+.progress-bar {
+  width: 0;
+  height: 20px;
+  background-color: #4CAF50;
+  text-align: center;
+  line-height: 20px;
+  color: white;
   transition: width 0.5s ease;
 }
 
@@ -764,27 +765,91 @@ input:checked+.slider:before {
 }
 
 .justify-content-end {
-  justify-content : end;
+  justify-content: end;
 }
 
 .mr-3 {
   margin-right: 3px;
 }
 
-.remove-btn {
+.text-align-end {
+  text-align: end;
+}
+
+/* Container for preview elements */
+.preview-container {
+  position: relative;
+  margin-right: 10px;
+  margin-bottom: 10px;
+  display: inline-block;
+}
+
+/* Styling for images */
+.preview-container img {
+  max-height: 115px;
+  max-width: 217px;
+  border-radius: 15px;
+  object-fit: cover;
+}
+
+/* Styling for videos */
+.preview-container video {
+  max-height: 115px;
+  max-width: 100px;
+  border-radius: 15px;
+  object-fit: cover;
+}
+
+/* Remove button styling */
+.preview-container .remove-btn {
   position: absolute;
-  top: 10px;
-  /* Adjust based on your layout */
-  right: 10px;
-  /* Adjust based on your layout */
-  display: none;
-  background-color: rgba(0, 0, 0, 0.5);
+  top: 5px;
+  right: 5px;
+  z-index: 11;
+  background-color: rgba(255, 0, 0, 0.8);
   color: white;
   border: none;
-  padding: 5px;
+  border-radius: 5px;
+  width: 56px;
+  height: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Download button styling */
+.preview-container .btn-primary {
+  position: absolute;
+  bottom: 14px;
+  right: 5px;
+  z-index: 10;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 2px 8px;
+  font-size: 12px;
   border-radius: 5px;
 }
 
-.preview-container:hover .remove-btn {
-  display: block;
+/* Ensure the preview area is a flexbox with appropriate spacing */
+#previewArea {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .preview-container {
+    max-width: 100%;
+  }
+
+  .preview-container img, .preview-container video {
+    max-width: 100%;
+    max-height: auto;
+  }
+}
+
+.is-invalid {
+  border-color: #dc3545;
 }

@@ -38,8 +38,10 @@ return [
     ],
 
     'facebook' => [
-        'app_id' => env('FACEBOOK_APP_ID'),
-        'app_secret' => env('FACEBOOK_APP_SECRET'),
+        'client_id' => env('FACEBOOK_APP_ID'),
+        'client_secret' => env('FACEBOOK_APP_SECRET'),
+        'redirect' => env('FACEBOOK_REDIRECT'),
+        // 'redirect' => 'http://localhost/SearchKeywordPlanner/auth/facebook/callback',
         'default_graph_version' => env('FACEBOOK_GRAPH_VERSION'),
     ]
 

@@ -46,9 +46,10 @@
         </a>
     </div>
 
-    <div class="menu-item {{ (\Request::route()->getName()=='new-campaign-manually.index' || \Request::route()->getName()=='new-campaign-manually.create') || \Request::route()->getName()=='new-campaign-manually.edit' ? ' active' : '' }}">
+    <div class="menu-item {{ (\Request::route()->getName()=='new-campaign-manually.index' || \Request::route()->getName()=='new-campaign-manually.create') || \Request::route()->getName()=='new-campaign-manually.edit' || \Request::route()->getName()=='new-campaign-manually.adcreative' ? ' active' : '' }}">
         <a href="{{ route('new-campaign-manually.index') }}" class="menu-link">
-            <span class="menu-icon"><i class="fas fa-laptop fa-lg fa-fw me-2 fa-laptop"></i></span>
+            {{-- <i class="fa-solid fa-megaphone"></i> --}}
+            <span class="menu-icon"><i class="fa fa-lg fa-fw me-2 fa-bullhorn"></i></span>
             <span class="menu-text">{{ __('Offer') }}</span>
         </a>
     </div>

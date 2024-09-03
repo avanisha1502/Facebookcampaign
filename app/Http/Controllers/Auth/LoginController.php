@@ -44,7 +44,6 @@ class LoginController extends Controller
         return Socialite::driver('google')->redirect();
     }
 
-<<<<<<< HEAD
     public function redirectToFacebook()
     {
         // $facebookClientId = config('services.facebook.client_id');
@@ -52,8 +51,6 @@ class LoginController extends Controller
         return Socialite::driver('facebook')->redirect();
     }
 
-=======
->>>>>>> 16cb19a4160dbd4f26485253e1f831e96e9246e9
 
     public function handleGoogleCallback()
     {
@@ -85,7 +82,6 @@ class LoginController extends Controller
         }
     }
 
-<<<<<<< HEAD
     public function handleFacebookCallback()
     {
         try {
@@ -110,8 +106,6 @@ class LoginController extends Controller
         }
     }
 
-=======
->>>>>>> 16cb19a4160dbd4f26485253e1f831e96e9246e9
     public function logout()
     {
         Auth::logout();
