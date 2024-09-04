@@ -57,25 +57,25 @@
                                     <select class="form-control" id="Pixel" name="pixel">
                                         <option value="">{{ __('Select Pixel') }}</option>
                                         <option value="a1" {{ $campaignAllDetails->pixel == 'a1' ? 'selected' : '' }}>
-                                            {{ __('A1') }} </option>
+                                            {{ __('A1 (Healthy)') }} </option>
                                         <option value="a2" {{ $campaignAllDetails->pixel == 'a2' ? 'selected' : '' }}>
-                                            {{ __('A2') }} </option>
+                                            {{ __('A2 (Jobs)') }} </option>
                                         <option value="a3" {{ $campaignAllDetails->pixel == 'a3' ? 'selected' : '' }}>
-                                            {{ __('A3') }} </option>
+                                           {{ __('A3 (Service)') }}</option>
                                         <option value="a4" {{ $campaignAllDetails->pixel == 'a4' ? 'selected' : '' }}>
-                                            {{ __('A4') }} </option>
+                                            {{ __('A4 (Auto)') }} </option>
                                         <option value="a5" {{ $campaignAllDetails->pixel == 'a5' ? 'selected' : '' }}>
-                                            {{ __('A5') }} </option>
+                                           {{ __('A5 (Home&Garden)') }} </option>
                                         <option value="a6" {{ $campaignAllDetails->pixel == 'a6' ? 'selected' : '' }}>
-                                            {{ __('A6') }} </option>
+                                            {{ __('A6 (Other)') }} </option>
                                         <option value="a7" {{ $campaignAllDetails->pixel == 'a7' ? 'selected' : '' }}>
-                                            {{ __('A7') }} </option>
+                                           {{ __('A7 (Dating)') }} </option>
                                         <option value="a8" {{ $campaignAllDetails->pixel == 'a8' ? 'selected' : '' }}>
-                                            {{ __('A8') }} </option>
+                                            {{ __('A8 (Eduction)') }} </option>
                                         <option value="a9" {{ $campaignAllDetails->pixel == 'a9' ? 'selected' : '' }}>
-                                            {{ __('A9') }} </option>
+                                            {{ __('A9 (Finance)') }} </option>
                                         <option value="a10" {{ $campaignAllDetails->pixel == 'a10' ? 'selected' : '' }}>
-                                            {{ __('A10') }} </option>
+                                            {{ __('A10 (Insurance)') }} </option>
 
                                     </select>
                                     @error('pixel')
