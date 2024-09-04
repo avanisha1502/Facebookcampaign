@@ -57,25 +57,25 @@
                                     <select class="form-control" id="Pixel" name="pixel">
                                         <option value="">{{ __('Select Pixel') }}</option>
                                         <option value="a1" {{ $campaignAllDetails->pixel == 'a1' ? 'selected' : '' }}>
-                                            {{ __('A1') }} </option>
+                                            {{ __('A1 (Healthy)') }} </option>
                                         <option value="a2" {{ $campaignAllDetails->pixel == 'a2' ? 'selected' : '' }}>
-                                            {{ __('A2') }} </option>
+                                            {{ __('A2 (Jobs)') }} </option>
                                         <option value="a3" {{ $campaignAllDetails->pixel == 'a3' ? 'selected' : '' }}>
-                                            {{ __('A3') }} </option>
+                                            {{ __('A3 (Service)') }} </option>
                                         <option value="a4" {{ $campaignAllDetails->pixel == 'a4' ? 'selected' : '' }}>
-                                            {{ __('A4') }} </option>
+                                            {{ __('A4 (Auto)') }} </option>
                                         <option value="a5" {{ $campaignAllDetails->pixel == 'a5' ? 'selected' : '' }}>
-                                            {{ __('A5') }} </option>
+                                            {{ __('A5 (Home&Garden)') }} </option>
                                         <option value="a6" {{ $campaignAllDetails->pixel == 'a6' ? 'selected' : '' }}>
-                                            {{ __('A6') }} </option>
+                                            {{ __('A6 (Other)') }} </option>
                                         <option value="a7" {{ $campaignAllDetails->pixel == 'a7' ? 'selected' : '' }}>
-                                            {{ __('A7') }} </option>
+                                            {{ __('A7 (Dating)') }} </option>
                                         <option value="a8" {{ $campaignAllDetails->pixel == 'a8' ? 'selected' : '' }}>
-                                            {{ __('A8') }} </option>
+                                            {{ __('A8 (Eduction)') }} </option>
                                         <option value="a9" {{ $campaignAllDetails->pixel == 'a9' ? 'selected' : '' }}>
-                                            {{ __('A9') }} </option>
+                                            {{ __('A9 (Finance)') }} </option>
                                         <option value="a10" {{ $campaignAllDetails->pixel == 'a10' ? 'selected' : '' }}>
-                                            {{ __('A10') }} </option>
+                                            {{ __('A10 (Insurance)') }} </option>
 
                                     </select>
                                     @error('pixel')
@@ -233,128 +233,7 @@
                                 </div>
                             </div>
 
-                            {{-- <div class="col-md-4">
-                                <div class="mb-3">
-                                    <label class="form-label">{{ __('Upload Image/Video') }}<span
-                                            class="text-danger">*</span></label>
-                                    <input type="file" class="form-control" name="files[]" multiple id="fileInput"
-                                        value="{{ $campaignAllDetails->image }}">
-                                    @error('files')
-                                        <span class="text-danger">{{ $message }}</span>
-                                    @enderror
-                                </div>
-                                <div class="col-md-12">
-                                    <div id="previewArea" class="row"></div>
-                                </div>
-                            </div> --}}
-                            {{-- <div class="col-md-4">
-                                <div class="mb-3">
-                                    <label class="form-label">{{ __('Upload Image/Video') }}<span
-                                            class="text-danger">*</span></label>
-                                    <input type="file" class="form-control" name="files[]" multiple id="fileInput">
-                                    @error('files')
-                                        <span class="text-danger">{{ $message }}</span>
-                                    @enderror
-                                </div>
-                                <div class="col-md-12">
-                                    <div id="previewArea" class="d-flex g-10">
-                                        <!-- Existing previews -->
-                                        @if (!empty($campaignAllDetails->image))
-                                            @php
-                                                $images = json_decode($campaignAllDetails->image);
-                                            @endphp
-                                            @foreach ($images as $image)
-                                                <div class="mb-2">
-                                                    @if (preg_match('/\.(mp4|webm|ogg)$/i', $image))
-                                                        <video src="{{ $image }}" controls class="img-fluid"
-                                                            style="max-height: 115px; border-radius: 15px;"></video>
-                                                    @else
-                                                        <img src="{{ $image }}" class="img-fluid"
-                                                            style="max-height: 115px;border-radius: 15px;">
-                                                    @endif
-                                                </div>
-                                            @endforeach
-                                        @endif
-                                    </div>
-                                </div>
-                            </div> --}}
-
-                            {{-- <div class="col-md-4">
-                                <div class="mb-3">
-                                    <label class="form-label">{{ __('Upload Image/Video') }}<span
-                                            class="text-danger">*</span></label>
-                                    <input type="file" class="form-control" name="files[]" multiple id="fileInput">
-                                    @error('files')
-                                        <span class="text-danger">{{ $message }}</span>
-                                    @enderror
-                                </div>
-                                <div class="col-md-12">
-                                    <div id="previewArea" class="d-flex g-10">
-                                        <!-- Existing previews -->
-                                        @if (!empty($campaignAllDetails->image))
-                                            @php
-                                                $images = json_decode($campaignAllDetails->image);
-                                            @endphp
-                                            @foreach ($images as $image)
-                                                <div class="mb-2 preview-container">
-                                                    @if (preg_match('/\.(mp4|webm|ogg)$/i', $image))
-                                                        <video src="{{ $image }}" controls class="img-fluid"
-                                                            style="max-height: 142px; border-radius: 15px; width: 91px;"></video>
-                                                    @else
-                                                        <img src="{{ $image }}" class="img-fluid"
-                                                            style="max-height: 115px; border-radius: 15px;">
-                                                    @endif
-                                                    <button type="button" class="btn btn-danger btn-sm remove-btn"
-                                                        onclick="removePreview(this, '{{ $image }}')">Remove</button>
-                                                </div>
-                                            @endforeach
-                                        @endif
-                                    </div>
-                                </div>
-                            </div> --}}
-
-
-
-                            {{-- <div class="col-md-4">
-                                <div class="mb-3">
-                                    <label class="form-label">{{ __('Image') }}<span class="text-danger">*</span></label>
-                                    <input type="file" class="form-control" name="image"
-                                        value="{{ $campaignAllDetails->image }}">
-                                    @error('image')
-                                        <span class="text-danger">{{ $message }}</span>
-                                    @enderror
-                                </div>
-                            </div> --}}
-                            {{-- <div class="col-md-4">
-                                <div class="mb-3">
-                                    <label class="form-label">{{ __('Offer URL') }}<span
-                                            class="text-danger">*</span></label>
-                                    <textarea class="form-control" name="offer_url" placeholder="Enter Offer URL">{{ $campaignAllDetails->offer_url }}</textarea>
-                                    @error('offer_url')
-                                        <span class="text-danger">{{ $message }}</span>
-                                    @enderror
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label class="form-label">{{ __('Headline') }}<span
-                                            class="text-danger">*</span></label>
-                                    <textarea class="form-control" name="headline" placeholder="Enter Headline" rows="7">{{ $campaignAllDetails->headlines }}</textarea>
-                                    @error('headline')
-                                        <span class="text-danger">{{ $message }}</span>
-                                    @enderror
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label class="form-label">{{ __('Primary Text') }}<span
-                                            class="text-danger">*</span></label>
-                                    <textarea class="form-control" name="primary_text" rows="7" placeholder="Enter Primary Text">{{ $campaignAllDetails->primary_text }}</textarea>
-                                    @error('primary_text')
-                                        <span class="text-danger">{{ $message }}</span>
-                                    @enderror
-                                </div>
-                            </div> --}}
+        
                             <div class="row">
                                 <div class="col-md-12 text-end ">
                                     <button type="submit"
@@ -750,7 +629,7 @@
 
                                 fileReader.onload = function(e) {
                                     const previewElement = document.createElement('div');
-                                    previewElement.classList.add('col-md-3', 'mb-3',
+                                    previewElement.classList.add( 'mb-3',
                                         'preview-container');
 
                                     if (file.type.startsWith('image/')) {

@@ -5,38 +5,33 @@
         <div>
             <ul class="breadcrumb">
                 <li class="breadcrumb-item"><a href="#">{{ __('PAGES') }}</a></li>
-                <li class="breadcrumb-item active">{{ __('Campaign') }}</li>
+                <li class="breadcrumb-item"><a href="#">{{ __('Offer') }}</a></li>
+                <li class="breadcrumb-item active">{{ __('Sub Offer') }}</li>
             </ul>
         </div>
 
         <div class="ms-auto">
-            <a class="btn btn-theme" href="{{ route('new-campaign-manually.create') }}"
-                data-title="{{ __('Add New Manual Campaign') }}"><i class="fa fa-plus-circle fa-fw me-1"></i>
-                {{ __('Add New Manual Campaign') }}</a>
+            <a class="btn btn-theme" href="{{ route('suboffer.create' , $id) }}"
+                data-title="{{ __('Add New Sub Offer') }}"><i class="fa fa-plus-circle fa-fw me-1"></i>
+                {{ __('Add New Sub Offer') }}</a>
         </div>
     </div>
     <div class="row">
-        @if ($manualCmapiagns->count() > 0)
-            @foreach ($manualCmapiagns as $index => $campaign)
+        @if ($SubOffers->count() > 0)
+            @foreach ($SubOffers as $index => $campaign)
                 <div class="col-md-4 mb-3">
                     <div class="card card_wed">
                         <div class="card-body">
-                            <h5 class="card-title d-flex justify-content-center">
-                               <a href="{{ route('suboffer.index', $campaign->id) }}" style="text-decoration: none; color:black">  {{ $campaign->campaign_name }} </a>
-                            </h5>
+                            <h5 class="card-title d-flex justify-content-center">{{ $campaign->offer_sub_campaign_name }}</h5>
                             <div class="card-title d-flex justify-content-center">
-                                {{ $campaign->group }}-{{ $campaign->country_name }}-{{ $campaign->short_code }}-{{ $campaign->language }}
+                                {{ $campaign->offer_sub_group }}-{{ $campaign->offer_sub_country_name }}-{{ $campaign->offer_sub_short_code }}-{{ $campaign->offer_sub_language }}
                             </div>
                             <div class="d-flex justify-content-center mt-3">
-                                <a href="{{ route('new-campaign-manually.edit', $campaign->id) }}"
+                                <a href="{{ route('sub-offer.edit', $campaign->id) }}"
                                     class="btn btn-primary me-2 mb-2"><i class="fa fa-edit"></i>
                                     {{ __('Edit') }}</a>
-                               
-                                    <a href="{{ route('AdsCreationOption.show', $campaign->id) }}"
-                                        class="btn btn-purple me-2 mb-2"><i class="fa fa-edit"></i>
-                                        {{ __('Ad Creatives') }}</a>
 
-                                <form method="POST" action="{{ route('new-campaign-manually.destroy', $campaign->id) }}"
+                                <form method="POST" action="{{ route('suboffer.destroy', $campaign->id) }}"
                                     id="user-form-{{ $campaign->id }}">
                                     @csrf
                                     @method('DELETE')
@@ -53,6 +48,13 @@
                 </div>
             @endforeach
         @else
+        <div class="col-md-12">
+            <div class="card card_wed">
+                <div class="card-body">
+                    <h5 class="card-title d-flex justify-content-center">{{ __('No Sub Offers Found')
+                    }}</h5>
+            </div>
+        </div>
         @endif
     </div>
 @endsection

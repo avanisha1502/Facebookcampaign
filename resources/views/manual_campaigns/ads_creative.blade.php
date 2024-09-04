@@ -13,26 +13,10 @@
                             {{ __('Ads Section') }}
                         </div>
                         <div class="col-md-6 text-align-end">
-                            {{-- <a href="javascript:void(0)" class="btn btn-success me-2 generate-button show_btn mb-2"
-                                id="generate-{{ $campaignAllDetails->id }}"
-                                onclick="generateContent({{ $campaignAllDetails->id }})">
-                                <i class="fa-solid fa-audio-description"></i>
-                                {{ __('Generate Headlines') }}
-                            </a> --}}
-
-                            <!-- Hidden loader -->
-                           
-
                             @if (
                                 $campaignAllDetails->headlines != null &&
                                     $campaignAllDetails->primary_text != null &&
                                     $campaignAllDetails->description != null)
-                                {{-- <a href="{{ route('generate-headlines-manual', $campaignAllDetails->id) }}"
-                                    class="btn btn-warning me-2 generate-button text-white mb-2 "
-                                    id="generate-{{ $campaignAllDetails->id }}">
-                                    <i class="fa-solid fa-redo"></i>
-                                    {{ __('Regenerate Headlines') }}
-                                </a> --}}
 
                                 <a href="javascript:void(0)" class="btn btn-warning me-2 generate-button show_btn mb-2 text-white mb-2 "
                                     id="generate-{{ $campaignAllDetails->id }}"
@@ -109,7 +93,7 @@
                                     <label class="form-label">{{ __('Headline') }}<span
                                             class="text-danger">*</span></label>
                                     <textarea class="form-control" name="headline" id="headline-{{ $campaignAllDetails->id }}" placeholder="Enter Headline"
-                                        rows="7">{{ $campaignAllDetails->headlines }}</textarea>
+                                        rows="3">{{ $campaignAllDetails->headlines }}</textarea>
                                     @error('headline')
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror
@@ -120,7 +104,7 @@
                                     <label class="form-label">{{ __('Primary Text') }}<span
                                             class="text-danger">*</span></label>
                                     <textarea class="form-control" name="primary_text" placeholder="Enter Primary Text"
-                                        id="primary-text-{{ $campaignAllDetails->id }}" rows="7">{{ $campaignAllDetails->primary_text }}</textarea>
+                                        id="primary-text-{{ $campaignAllDetails->id }}" rows="3">{{ $campaignAllDetails->primary_text }}</textarea>
                                     @error('primary_text')
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror
@@ -131,7 +115,7 @@
                                     <label class="form-label">{{ __('Description') }}<span
                                             class="text-danger">*</span></label>
                                     <textarea class="form-control" name="description" id="description-{{ $campaignAllDetails->id }}"
-                                        placeholder="Enter Description" rows="7">{{ $campaignAllDetails->description }}</textarea>
+                                        placeholder="Enter Description" rows="3">{{ $campaignAllDetails->description }}</textarea>
                                     @error('description')
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror

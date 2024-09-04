@@ -256,7 +256,7 @@
             if (type == 'success') {
                 icon = 'fas fa-check-circle';
                 // cls = 'success';
-                cls = 'primary';
+                cls = 'success';
             } else {
                 icon = 'fas fa-times-circle';
                 cls = 'danger';

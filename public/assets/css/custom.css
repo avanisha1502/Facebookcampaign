@@ -853,3 +853,8 @@ input:checked+.slider:before {
 .is-invalid {
   border-color: #dc3545;
 }
+
+.card_wed {
+  border-radius: 21px;
+    box-shadow: 1px 1px #a7a6a6;
+}

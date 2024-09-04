@@ -20,7 +20,7 @@
                                     <label class="form-label"> {{ __('Offer Name') }} <span
                                             class="text-danger">*</span></label>
                                     <input type="text" class="form-control" name="topic_name"
-                                        placeholder="Enter Offer Name">
+                                        placeholder="Enter Offer Name" value="{{ old('topic_name') }}">
                                     @error('topic_name')
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror
@@ -31,9 +31,13 @@
                                     <label class="form-label">{{ __('Strategy') }}<span class="text-danger">*</span></label>
                                     <select class="form-control" id="Strategy" name="strategy">
                                         <option value="">{{ __('Select Strategy') }}</option>
-                                        <option name="none" value="none"> {{ __('None') }} </option>
-                                        <option name="st1" value="st1"> {{ __('ST1') }} </option>
-                                        <option name="st2" value="st2"> {{ __('ST2') }} </option>
+                                        <option name="none" value="none"
+                                            {{ old('strategy') == 'none' ? 'selected' : '' }}> {{ __('None') }} </option>
+                                        <option name="st1" value="st1"
+                                            {{ old('strategy') == 'st1' ? 'selected' : '' }}> {{ __('ST1') }} </option>
+                                        <option name="st2" value="st2"
+                                            {{ old('strategy') == 'st2' ? 'selected' : '' }}> {{ __('ST2') }}
+                                        </option>
                                     </select>
                                     @error('strategy')
                                         <span class="text-danger">{{ $message }}</span>
@@ -45,16 +49,16 @@
                                     <label class="form-label">{{ __('Pixel') }}<span class="text-danger">*</span></label>
                                     <select class="form-control" id="Pixel" name="pixel">
                                         <option value="">{{ __('Select Pixel') }}</option>
-                                        <option name="a1" value="a1"> {{ __('A1 (Healthy)') }} </option>
-                                        <option name="a2" value="a2"> {{ __('A2 (Jobs)') }} </option>
-                                        <option name="a3" value="a3"> {{ __('A3 (Service)') }} </option>
-                                        <option name="a4" value="a4"> {{ __('A4 (Auto)') }} </option>
-                                        <option name="a5" value="a5"> {{ __('A5 (Home&Garden)') }} </option>
-                                        <option name="a6" value="a6"> {{ __('A6 (Other)') }} </option>
-                                        <option name="a7" value="a7"> {{ __('A7 (Dating)') }} </option>
-                                        <option name="a8" value="a8"> {{ __('A8 (Eduction)') }} </option>
-                                        <option name="a9" value="a9"> {{ __('A9 (Finance)') }} </option>
-                                        <option name="a10" value="a10"> {{ __('A10 (Insurance)') }} </option>
+                                        <option name="a1" value="a1"  {{ old('pixel') == 'a1' ? 'selected' : '' }}> {{ __('A1 (Healthy)') }} </option>
+                                        <option name="a2" value="a2" {{ old('pixel') == 'a2' ? 'selected' : '' }}> {{ __('A2 (Jobs)') }} </option>
+                                        <option name="a3" value="a3" {{ old('pixel') == 'a3' ? 'selected' : '' }}> {{ __('A3 (Service)') }} </option>
+                                        <option name="a4" value="a4" {{ old('pixel') == 'a4' ? 'selected' : '' }}> {{ __('A4 (Auto)') }} </option>
+                                        <option name="a5" value="a5" {{ old('pixel') == 'a5' ? 'selected' : '' }}> {{ __('A5 (Home&Garden)') }} </option>
+                                        <option name="a6" value="a6" {{ old('pixel') == 'a6' ? 'selected' : '' }}> {{ __('A6 (Other)') }} </option>
+                                        <option name="a7" value="a7" {{ old('pixel') == 'a7' ? 'selected' : '' }}> {{ __('A7 (Dating)') }} </option>
+                                        <option name="a8" value="a8" {{ old('pixel') == 'a8' ? 'selected' : '' }}> {{ __('A8 (Eduction)') }} </option>
+                                        <option name="a9" value="a9" {{ old('pixel') == 'a9' ? 'selected' : '' }}> {{ __('A9 (Finance)') }} </option>
+                                        <option name="a10" value="a10" {{ old('pixel') == 'a10' ? 'selected' : '' }}> {{ __('A10 (Insurance)') }} </option>
 
                                     </select>
                                     @error('pixel')
@@ -68,10 +72,10 @@
                                             class="text-danger">*</span></label>
                                     <select class="form-control" id="FeedProvide" name="feed_provide">
                                         <option value="">{{ __('Select Feed Provide') }}</option>
-                                        <option name="ads" value="ads"> {{ __('ADS') }} </option>
-                                        <option name="tonic" value="tonic"> {{ __('Tonic') }} </option>
-                                        <option name="system1" value="system1"> {{ __('System1') }} </option>
-                                        <option name="sedo" value="sedo"> {{ __('Sedo') }} </option>
+                                        <option name="ads" value="ads" {{ old('feed_provide') == 'ads' ? 'selected' : '' }}> {{ __('ADS') }} </option>
+                                        <option name="tonic" value="tonic" {{ old('feed_provide') == 'tonic' ? 'selected' : '' }}> {{ __('Tonic') }} </option>
+                                        <option name="system1" value="system1" {{ old('feed_provide') == 'system1' ? 'selected' : '' }}> {{ __('System1') }} </option>
+                                        <option name="sedo" value="sedo" {{ old('feed_provide') == 'sedo' ? 'selected' : '' }}> {{ __('Sedo') }} </option>
                                     </select>
                                     @error('feed_provide')
                                         <span class="text-danger">{{ $message }}</span>
@@ -437,7 +441,7 @@
                 });
         });
 
-       
+
 
 
         // document.addEventListener('DOMContentLoaded', function() {

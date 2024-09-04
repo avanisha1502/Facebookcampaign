@@ -152,5 +152,16 @@ Route::group(['middleware' => 'check.activity'], function () {
     Route::get('/download-image', [CampaignAllDetailsController::class, 'downloadImage'])->name('download.image');
     Route::get('/AddCountries',  [CampaignAllDetailsController::class , 'AddCountries'])->name('AddCountries.create')->middleware('auth.redirect');
     Route::post('/AddCountries-store', [CampaignAllDetailsController::class, 'storeAddCountries'])->name('store.AddCountries')->middleware('auth.redirect');
+    Route::get('/AdsCreationOption/{id}', [CampaignAllDetailsController::class, 'AdsCreationOption'])->name('AdsCreationOption.show')->middleware('auth.redirect');
+
+    Route::get('/suboffer/{id}', [CampaignAllDetailsController::class, 'SubOfferIndex'])->name('suboffer.index')->middleware('auth.redirect');
+    Route::get('/suboffer/create/{id}', [CampaignAllDetailsController::class, 'SubOffercreate'])->name('suboffer.create')->middleware('auth.redirect');
+    Route::post('/suboffer/store/{id}', [CampaignAllDetailsController::class, 'SubOfferstore'])->name('suboffer.store')->middleware('auth.redirect');
+    Route::get('/suboffer/count/{id}', [CampaignAllDetailsController::class, 'getSubOfferCount'])->name('suboffer.count')->middleware('auth.redirect');
+    Route::get('/suboffer/edit/{id}', [CampaignAllDetailsController::class, 'SubOfferEdit'])->name('sub-offer.edit')->middleware('auth.redirect');
+    Route::put('/suboffer/update/{id}', [CampaignAllDetailsController::class, 'SubOfferUpdate'])->name('suboffer.update')->middleware('auth.redirect');
+    Route::get('/generate-headlines-manual-suboffer/{id}', [CampaignAllDetailsController::class , 'GenerateHeadLinesSubOffer'])->name('generate-headlines-manual-suboffer')->middleware('auth.redirect');
+    Route::delete('/suboffer/delete/{id}', [CampaignAllDetailsController::class, 'Subdestroy'])->name('suboffer.destroy')->middleware('auth.redirect');
+    Route::get('/subofferedit/count/{id}', [CampaignAllDetailsController::class, 'getSubOfferCountedit'])->name('subofferedits.count')->middleware('auth.redirect');
 
 });
