@@ -28,7 +28,6 @@
         "monolog/monolog": "^2.9",
         "phpseclib/phpseclib": "^3.0",
         "serpapi/google-search-results-php": "^1.2",
-        "srmklive/paypal": "~3.0",
         "tda/laravel-google-search-console": "dev-main",
         "league/flysystem-aws-s3-v3": "^3.24"
     },

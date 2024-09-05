@@ -52,11 +52,20 @@
     </div>
 
     <div
-        class="menu-item {{ \Request::route()->getName() == 'new-campaign-manually.index' || \Request::route()->getName() == 'new-campaign-manually.create' || \Request::route()->getName() == 'new-campaign-manually.edit' || \Request::route()->getName() == 'new-campaign-manually.adcreative' ||  \Request::route()->getName() == 'suboffer.index' ||  \Request::route()->getName() == 'suboffer.create' || \Request::route()->getName() == 'sub-offer.edit' ||\Request::route()->getName() == 'AdsCreationOption.show' ? ' active' : '' }}">
+        class="menu-item {{ \Request::route()->getName() == 'new-campaign-manually.index' || \Request::route()->getName() == 'new-campaign-manually.create' || \Request::route()->getName() == 'new-campaign-manually.edit' || \Request::route()->getName() == 'new-campaign-manually.adcreative' || \Request::route()->getName() == 'suboffer.index' || \Request::route()->getName() == 'suboffer.create' || \Request::route()->getName() == 'sub-offer.edit' || \Request::route()->getName() == 'AdsCreationOption.show' ? ' active' : '' }}">
         <a href="{{ route('new-campaign-manually.index') }}" class="menu-link">
             {{-- <i class="fa-solid fa-megaphone"></i> --}}
             <span class="menu-icon"><i class="fa fa-lg fa-fw me-2 fa-bullhorn"></i></span>
             <span class="menu-text">{{ __('Offer') }}</span>
+        </a>
+    </div>
+
+    <div
+        class="menu-item {{ \Request::route()->getName() == 'new-campaign-manually.index' || \Request::route()->getName() == 'new-campaign-manually.create' || \Request::route()->getName() == 'new-campaign-manually.edit' || \Request::route()->getName() == 'new-campaign-manually.adcreative' || \Request::route()->getName() == 'suboffer.index' || \Request::route()->getName() == 'suboffer.create' || \Request::route()->getName() == 'sub-offer.edit' || \Request::route()->getName() == 'AdsCreationOption.show' ? ' active' : '' }}">
+        <a href="{{ route('new-campaign-manually.index') }}" class="menu-link">
+            {{-- <i class="fa-solid fa-megaphone"></i> --}}
+            <span class="menu-icon"><i class="fa fa-lg fa-fw me-2 fa-bullhorn"></i></span>
+            <span class="menu-text">{{ __('Ads Library') }}</span>
         </a>
     </div>
 
