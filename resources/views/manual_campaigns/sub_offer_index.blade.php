@@ -84,109 +84,109 @@
             show_toastr('Success', 'Text copied to clipboard', 'success');
         }
 
-        document.addEventListener('DOMContentLoaded', function() {
-            const fileInput = document.getElementById('fileInput');
-            const previewArea = document.getElementById('previewArea');
+        // document.addEventListener('DOMContentLoaded', function() {
+        //     const fileInput = document.getElementById('fileInput');
+        //     const previewArea = document.getElementById('previewArea');
 
-            // Parse existing images from the server
-            const existingImages = @json($campaignAllDetails->image ?? '[]');
-            const imagesArray = Array.isArray(existingImages) ? existingImages : [];
+        //     // Parse existing images from the server
+        //     const existingImages = @json($campaignAllDetails->image ?? '[]');
+        //     const imagesArray = Array.isArray(existingImages) ? existingImages : [];
 
-            if (fileInput) {
-                // Function to render existing images/videos
-                function renderExistingPreviews() {
-                    if (imagesArray.length > 0) {
-                        imagesArray.forEach(url => {
-                            const previewElement = document.createElement('div');
-                            previewElement.classList.add('mb-2', 'preview-container');
-                            if (url.match(/\.(mp4|webm|ogg)$/i)) {
-                                previewElement.innerHTML = `
-                            <video controls autoplay loop class="img-fluid" alt="Preview" style="max-height: 142px; border-radius: 15px; width: 91px;">
-                                <source src="${url}" type="video/mp4">
-                            </video>
-                            <button type="button" class="btn btn-danger btn-sm remove-btn" onclick="removePreview(this, '${url}')">Remove</button>
-                        `;
-                            } else {
-                                previewElement.innerHTML = `
-                            <img src="${url}" class="img-fluid" alt="Preview" />
-                            <button type="button" class="btn btn-danger btn-sm remove-btn" onclick="removePreview(this, '${url}')">Remove</button>
-                        `;
-                            }
+        //     if (fileInput) {
+        //         // Function to render existing images/videos
+        //         function renderExistingPreviews() {
+        //             if (imagesArray.length > 0) {
+        //                 imagesArray.forEach(url => {
+        //                     const previewElement = document.createElement('div');
+        //                     previewElement.classList.add('mb-2', 'preview-container');
+        //                     if (url.match(/\.(mp4|webm|ogg)$/i)) {
+        //                         previewElement.innerHTML = `
+        //                     <video controls autoplay loop class="img-fluid" alt="Preview" style="max-height: 142px; border-radius: 15px; width: 91px;">
+        //                         <source src="${url}" type="video/mp4">
+        //                     </video>
+        //                     <button type="button" class="btn btn-danger btn-sm remove-btn" onclick="removePreview(this, '${url}')">Remove</button>
+        //                 `;
+        //                     } else {
+        //                         previewElement.innerHTML = `
+        //                     <img src="${url}" class="img-fluid" alt="Preview" />
+        //                     <button type="button" class="btn btn-danger btn-sm remove-btn" onclick="removePreview(this, '${url}')">Remove</button>
+        //                 `;
+        //                     }
 
-                            previewArea.appendChild(previewElement);
-                        });
-                    }
-                }
+        //                     previewArea.appendChild(previewElement);
+        //                 });
+        //             }
+        //         }
 
-                // Render existing previews on page load
-                renderExistingPreviews();
+        //         // Render existing previews on page load
+        //         renderExistingPreviews();
 
-                fileInput.addEventListener('change', function(event) {
-                    const files = event.target.files;
-                    if (files) {
-                        Array.from(files).forEach(file => {
-                            const fileReader = new FileReader();
+        //         fileInput.addEventListener('change', function(event) {
+        //             const files = event.target.files;
+        //             if (files) {
+        //                 Array.from(files).forEach(file => {
+        //                     const fileReader = new FileReader();
 
-                            fileReader.onload = function(e) {
-                                const previewElement = document.createElement('div');
-                                previewElement.classList.add('mb-2',
-                                    'preview-container');
+        //                     fileReader.onload = function(e) {
+        //                         const previewElement = document.createElement('div');
+        //                         previewElement.classList.add('mb-2',
+        //                             'preview-container');
 
-                                if (file.type.startsWith('image/')) {
-                                    previewElement.innerHTML = `
-                                <img src="${e.target.result}" class="img-fluid" alt="Preview" style="max-height: 145px; border-radius: 15px;" />
-                                <button type="button" class="btn btn-danger btn-sm remove-btn" onclick="removePreview(this)">Remove</button>
-                            `;
-                                } else if (file.type.startsWith('video/')) {
-                                    previewElement.innerHTML = `
-                                <video controls autoplay loop class="img-fluid" alt="Preview" style="max-height: 142px; border-radius: 15px; width: 91px;">
-                                    <source src="${e.target.result}" type="${file.type}">
-                                </video>
-                                <button type="button" class="btn btn-danger btn-sm remove-btn" onclick="removePreview(this)">Remove</button>
-                            `;
-                                }
+        //                         if (file.type.startsWith('image/')) {
+        //                             previewElement.innerHTML = `
+        //                         <img src="${e.target.result}" class="img-fluid" alt="Preview" style="max-height: 145px; border-radius: 15px;" />
+        //                         <button type="button" class="btn btn-danger btn-sm remove-btn" onclick="removePreview(this)">Remove</button>
+        //                     `;
+        //                         } else if (file.type.startsWith('video/')) {
+        //                             previewElement.innerHTML = `
+        //                         <video controls autoplay loop class="img-fluid" alt="Preview" style="max-height: 142px; border-radius: 15px; width: 91px;">
+        //                             <source src="${e.target.result}" type="${file.type}">
+        //                         </video>
+        //                         <button type="button" class="btn btn-danger btn-sm remove-btn" onclick="removePreview(this)">Remove</button>
+        //                     `;
+        //                         }
 
-                                previewArea.appendChild(previewElement);
-                            };
+        //                         previewArea.appendChild(previewElement);
+        //                     };
 
-                            fileReader.readAsDataURL(file);
-                        });
-                    }
-                });
-            }
-        });
+        //                     fileReader.readAsDataURL(file);
+        //                 });
+        //             }
+        //         });
+        //     }
+        // });
 
-        function removePreview(button, url = null) {
-            const previewElement = button.parentElement;
-            const manuallycampaignId = "{{ $campaignAllDetails->id }}";
-            if (url) {
-                fetch('{{ route('delete.image') }}', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                        },
-                        body: JSON.stringify({
-                            url: url,
-                            manuallycampaignId: manuallycampaignId
-                        })
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.success) {
-                            previewElement.remove();
-                        } else {
-                            alert('Failed to remove image');
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error:', error);
-                        alert('Failed to remove image');
-                    });
-            } else {
-                previewElement.remove();
-            }
-        }
+        // function removePreview(button, url = null) {
+        //     const previewElement = button.parentElement;
+        //     const manuallycampaignId = "{{ $campaignAllDetails->id }}";
+        //     if (url) {
+        //         fetch('{{ route('delete.image') }}', {
+        //                 method: 'POST',
+        //                 headers: {
+        //                     'Content-Type': 'application/json',
+        //                     'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+        //                 },
+        //                 body: JSON.stringify({
+        //                     url: url,
+        //                     manuallycampaignId: manuallycampaignId
+        //                 })
+        //             })
+        //             .then(response => response.json())
+        //             .then(data => {
+        //                 if (data.success) {
+        //                     previewElement.remove();
+        //                 } else {
+        //                     alert('Failed to remove image');
+        //                 }
+        //             })
+        //             .catch(error => {
+        //                 console.error('Error:', error);
+        //                 alert('Failed to remove image');
+        //             });
+        //     } else {
+        //         previewElement.remove();
+        //     }
+        // }
         const baseUrl = @json(route('generate-headlines-manual', ['id' => $campaignAllDetails->id]));
 
         function generateContent(campaignId) {
