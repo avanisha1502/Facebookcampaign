@@ -83,36 +83,5 @@
             document.body.removeChild(textarea);
             show_toastr('Success', 'Text copied to clipboard', 'success');
         }
-
-   
-        const baseUrl = @json(route('generate-headlines-manual', ['id' => $campaignAllDetails->id]));
-
-        function generateContent(campaignId) {
-            // Show the loader
-            document.getElementById(`loader-${campaignId}`).classList.remove('hidden');
-            // Hide the generate button
-            document.getElementById(`generate-${campaignId}`).classList.add('d-none');
-            // Send AJAX request
-            fetch(baseUrl)
-                .then(response => response.json())
-                .then(data => {
-                    // Hide the loader
-                    document.getElementById(`loader-${campaignId}`).classList.add('hidden');
-
-                    // Show the generate button again
-                    document.getElementById(`generate-${campaignId}`).classList.remove('d-none');
-
-                    // Update the form fields with generated content
-                    document.getElementById(`headline-${campaignId}`).value = data.headline || '';
-                    document.getElementById(`primary-text-${campaignId}`).value = data.primary_text || '';
-                    document.getElementById(`description-${campaignId}`).value = data.description || '';
-                })
-                .catch(error => {
-                    console.error('Error generating content:', error);
-                    // Hide the loader and show the generate button if there's an error
-                    document.getElementById(`loader-${campaignId}`).classList.add('hidden');
-                    document.getElementById(`generate-${campaignId}`).classList.remove('d-none');
-                });
-        }
     </script>
 @endpush
