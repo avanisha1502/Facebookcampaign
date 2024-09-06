@@ -10,6 +10,7 @@ use App\Http\Controllers\CampignController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\CountryCampaignController;
 use App\Http\Controllers\AdAccountController;
+use App\Http\Controllers\AdsLibraryController;
 use App\Http\Controllers\CampaignGenerateController;
 use App\Http\Controllers\CampaignReportController;
 use App\Http\Controllers\CampaignAllDetailsController;
@@ -24,8 +25,9 @@ use App\Http\Controllers\CampaignAllDetailsController;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
 Route::group(['middleware' => 'check.activity'], function () {
-    
+
     Route::get('/', function () {
         return view('auth.login');
     });
@@ -55,12 +57,12 @@ Route::group(['middleware' => 'check.activity'], function () {
     //Keyword find
     Route::get('/get-related-keywords', [SerpbearKeywordController::class, 'index'])->name('googlekeywords.index')->middleware('auth.redirect');
     Route::post('/fetch-keywords', [SerpbearKeywordController::class, 'SerpApiCall'])->middleware('auth.redirect');
-    Route::get('/keyword/{id}' , [SerpbearKeywordController::class, 'show'])->name('keyword.show')->middleware('auth.redirect');
+    Route::get('/keyword/{id}', [SerpbearKeywordController::class, 'show'])->name('keyword.show')->middleware('auth.redirect');
 
 
     //Country Data
     Route::post('/load-data', [CountryController::class, 'loadData'])->name('loadcountrydata')->middleware('auth.redirect');
-    Route::post('/search-country', [CountryController::class , 'search'])->name('search.country')->middleware('auth.redirect');
+    Route::post('/search-country', [CountryController::class, 'search'])->name('search.country')->middleware('auth.redirect');
 
     //Google Keyword Planner
     Route::get('/googlekeyword', [GoogleAdsKeywordController::class, 'index'])->name('googleadskeyword.index')->middleware('auth.redirect');
@@ -69,25 +71,25 @@ Route::group(['middleware' => 'check.activity'], function () {
     Route::get('/googlekeyword-show/{id}', [GoogleAdsKeywordController::class, 'Show'])->name('googleadskeyword.show')->middleware('auth.redirect');
     Route::any('/googlekeyword-filter', [GoogleAdsKeywordController::class, 'Filter'])->name('googleadskeyword.filter')->middleware('auth.redirect');
 
-    Route::get('/campaigns' , [CampaignsController::class , 'index'])->name('campaigns.index')->middleware('auth.redirect');
+    Route::get('/campaigns', [CampaignsController::class, 'index'])->name('campaigns.index')->middleware('auth.redirect');
     //Setting 
     Route::get('/settings', [GoogleAdsKeywordController::class, 'index'])->name('settings.index')->middleware('auth.redirect');
 
 
     //create campign index ,insert, upadte,delete route
-    Route::get('/campaign', [CampignController::class , 'index'])->name('index-campaign')->middleware('auth.redirect');
-    Route::get('/create-campaign',  [CampignController::class , 'create'])->name('create-campaign')->middleware('auth.redirect');
-    Route::post('/create-campaign',  [CampignController::class , 'store'])->name('store-campaign')->middleware('auth.redirect');
-    Route::get('/show-campaign/{id}', [CampignController::class , 'show'])->name('show-campaign')->middleware('auth.redirect');
-    Route::get('/edit-campaign/{id}', [CampignController::class , 'edit'])->name('edit-campaign')->middleware('auth.redirect');
-    Route::put('/update-campaign/{id}',  [CampignController::class , 'update'])->name('update-campaign')->middleware('auth.redirect');
-    Route::delete('/delete-campaign/{id}', [CampignController::class , 'destroy'])->name('delete-campaign')->middleware('auth.redirect');
+    Route::get('/campaign', [CampignController::class, 'index'])->name('index-campaign')->middleware('auth.redirect');
+    Route::get('/create-campaign',  [CampignController::class, 'create'])->name('create-campaign')->middleware('auth.redirect');
+    Route::post('/create-campaign',  [CampignController::class, 'store'])->name('store-campaign')->middleware('auth.redirect');
+    Route::get('/show-campaign/{id}', [CampignController::class, 'show'])->name('show-campaign')->middleware('auth.redirect');
+    Route::get('/edit-campaign/{id}', [CampignController::class, 'edit'])->name('edit-campaign')->middleware('auth.redirect');
+    Route::put('/update-campaign/{id}',  [CampignController::class, 'update'])->name('update-campaign')->middleware('auth.redirect');
+    Route::delete('/delete-campaign/{id}', [CampignController::class, 'destroy'])->name('delete-campaign')->middleware('auth.redirect');
     Route::any('/campaign-filter', [CampignController::class, 'Filter'])->name('campaign.filter')->middleware('auth.redirect');
-   
+
 
     //generate-headlines
-    Route::get('/generate-headlines/{id}', [CampignController::class , 'GenerateHeadLines'])->name('generate-headlines')->middleware('auth.redirect');
-    Route::get('/show-generate-headlines/{id}', [CampignController::class , 'ShowGenerateHeadLines'])->name('generate-headlines-show')->middleware('auth.redirect');
+    Route::get('/generate-headlines/{id}', [CampignController::class, 'GenerateHeadLines'])->name('generate-headlines')->middleware('auth.redirect');
+    Route::get('/show-generate-headlines/{id}', [CampignController::class, 'ShowGenerateHeadLines'])->name('generate-headlines-show')->middleware('auth.redirect');
     //image upload
     Route::get('/generate-headlines-images/{id}', [CampignController::class, 'ImageUpload'])->name('generate-imageUpload')->middleware('auth.redirect');
     Route::post('/generate-headlines-images/{id}', [CampignController::class, 'storeImage'])->name('generate-imageUpload-store')->middleware('auth.redirect');
@@ -98,7 +100,7 @@ Route::group(['middleware' => 'check.activity'], function () {
 
     //Countries Route
     Route::get('/countries', [CountryCampaignController::class, 'index'])->name('countries.index')->middleware('auth.redirect');
-    Route::get('/create-countries',  [CountryCampaignController::class , 'create'])->name('create.countries')->middleware('auth.redirect');
+    Route::get('/create-countries',  [CountryCampaignController::class, 'create'])->name('create.countries')->middleware('auth.redirect');
     Route::post('/countries', [CountryCampaignController::class, 'store'])->name('store.countries')->middleware('auth.redirect');
     Route::get('/edit-country/{id}', [CountryCampaignController::class, 'edit'])->name('edit.countries')->middleware('auth.redirect');
     Route::put('/update-country/{id}', [CountryCampaignController::class, 'update'])->name('update.countries')->middleware('auth.redirect');
@@ -119,7 +121,7 @@ Route::group(['middleware' => 'check.activity'], function () {
 
     Route::post('/create-adscampaign/{id}', [CampaignGenerateController::class, 'CampaignAdsCreate'])->name('campaignads.store');
     Route::get('/adsaccounts-list/{id}', [CampaignGenerateController::class, 'AccountList'])->name('adsaccounts-list')->middleware('auth.redirect');
-    
+
     Route::get('/pixels/{accountId}', [CampaignGenerateController::class, 'getPixelsByAccount'])->name('pixels.byAccount');
 
     // Route::get('/get-ads-accounts', [AdAccountController::class, 'getAdAccount'])->name('getadaccounts')->middleware('auth.redirect');
@@ -147,10 +149,10 @@ Route::group(['middleware' => 'check.activity'], function () {
     Route::put('/campaign-manually/adcreativeupdate/{id}', [CampaignAllDetailsController::class, 'Adsupdate'])->name('new-campaign-manually.adcreativeupdate')->middleware('auth.redirect');
     Route::put('/campaign-manually/update/{id}', [CampaignAllDetailsController::class, 'update'])->name('new-campaign-manually.update')->middleware('auth.redirect');
     Route::delete('/campaign-manually/delete/{id}', [CampaignAllDetailsController::class, 'destroy'])->name('new-campaign-manually.destroy')->middleware('auth.redirect');
-    Route::get('/generate-headlines-manual/{id}', [CampaignAllDetailsController::class , 'GenerateHeadLines'])->name('generate-headlines-manual')->middleware('auth.redirect');
+    Route::get('/generate-headlines-manual/{id}', [CampaignAllDetailsController::class, 'GenerateHeadLines'])->name('generate-headlines-manual')->middleware('auth.redirect');
     Route::post('/delete-image-manually', [CampaignAllDetailsController::class, 'deleteImageManually'])->name('delete.image');
     Route::get('/download-image', [CampaignAllDetailsController::class, 'downloadImage'])->name('download.image');
-    Route::get('/AddCountries',  [CampaignAllDetailsController::class , 'AddCountries'])->name('AddCountries.create')->middleware('auth.redirect');
+    Route::get('/AddCountries',  [CampaignAllDetailsController::class, 'AddCountries'])->name('AddCountries.create')->middleware('auth.redirect');
     Route::post('/AddCountries-store', [CampaignAllDetailsController::class, 'storeAddCountries'])->name('store.AddCountries')->middleware('auth.redirect');
     Route::get('/AdsCreationOption/{id}', [CampaignAllDetailsController::class, 'AdsCreationOption'])->name('AdsCreationOption.show')->middleware('auth.redirect');
 
@@ -160,8 +162,12 @@ Route::group(['middleware' => 'check.activity'], function () {
     Route::get('/suboffer/count/{id}', [CampaignAllDetailsController::class, 'getSubOfferCount'])->name('suboffer.count')->middleware('auth.redirect');
     Route::get('/suboffer/edit/{id}', [CampaignAllDetailsController::class, 'SubOfferEdit'])->name('sub-offer.edit')->middleware('auth.redirect');
     Route::put('/suboffer/update/{id}', [CampaignAllDetailsController::class, 'SubOfferUpdate'])->name('suboffer.update')->middleware('auth.redirect');
-    Route::get('/generate-headlines-manual-suboffer/{id}', [CampaignAllDetailsController::class , 'GenerateHeadLinesSubOffer'])->name('generate-headlines-manual-suboffer')->middleware('auth.redirect');
+    Route::get('/generate-headlines-manual-suboffer/{id}', [CampaignAllDetailsController::class, 'GenerateHeadLinesSubOffer'])->name('generate-headlines-manual-suboffer')->middleware('auth.redirect');
     Route::delete('/suboffer/delete/{id}', [CampaignAllDetailsController::class, 'Subdestroy'])->name('suboffer.destroy')->middleware('auth.redirect');
     Route::get('/subofferedit/count/{id}', [CampaignAllDetailsController::class, 'getSubOfferCountedit'])->name('subofferedits.count')->middleware('auth.redirect');
+
+    // ads library
+    Route::get('/ads-library', [AdsLibraryController::class, 'index'])->name('ads_library.index')->middleware('auth.redirect');
+    Route::get('/fetchAds', [AdsLibraryController::class, 'fetchAds'])->name('fetchAds')->middleware('auth.redirect');
 
 });

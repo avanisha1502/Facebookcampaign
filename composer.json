@@ -17,7 +17,7 @@
         "googleads/google-ads-php": "^22.1",
         "googleads/googleads-php-lib": "^10.1",
         "grpc/grpc": "^1.57",
-        "guzzlehttp/guzzle": "*",
+        "guzzlehttp/guzzle": "^7.9",
         "guzzlehttp/promises": "^2.0",
         "guzzlehttp/psr7": "^2.6",
         "laravel/framework": "^9.19",
@@ -25,11 +25,12 @@
         "laravel/socialite": "^5.12",
         "laravel/tinker": "^2.7",
         "laravel/ui": "^4.5",
+        "league/flysystem-aws-s3-v3": "^3.24",
         "monolog/monolog": "^2.9",
         "phpseclib/phpseclib": "^3.0",
         "serpapi/google-search-results-php": "^1.2",
-        "tda/laravel-google-search-console": "dev-main",
-        "league/flysystem-aws-s3-v3": "^3.24"
+        "symfony/dom-crawler": "^7.1",
+        "tda/laravel-google-search-console": "dev-main"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",
