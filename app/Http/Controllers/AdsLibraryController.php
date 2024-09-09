@@ -89,7 +89,7 @@ class AdsLibraryController extends Controller
             }
         }
 
-        return $ads;
+        return $ads;     
     }
 
     private function extractImagesFromSnapshot($snapshotUrl)

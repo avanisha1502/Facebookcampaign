@@ -140,7 +140,8 @@
             if (Array.isArray(adsData) && adsData.length > 0) {
                 adsData.forEach(ad => {
                     const {
-                        page_name = '',
+                        ad_snapshot_url = '',
+                            page_name = '',
                             id = '',
                             ad_creative_bodies = [''],
                             extracted_images = {
@@ -158,13 +159,20 @@
                     <div>
                         ${buildMediaCarousel(id, extracted_images)}
                     </div>
-                <div>
-                    <div class="d-flex gap-3 align-items-center"> 
-                        <h5 class="card-title mt-1">${page_name}</h5>
-                        <small class="text-muted"><b>Library ID:</b> ${id}</small>
-                    </div>
-                    <!-- Ad Creative Body with 'More' button if needed -->
+                <div style="width: 100%">
+                    <div class="d-flex gap-3 align-items-center justify-content-between">
+    <div class="d-flex gap-3 align-items-center">
+        <h5 class="card-title mt-1">${page_name}</h5>
+        <small class="text-muted"><b>Library ID:</b> ${id}</small>
+    </div>
+    <a href="${ad_snapshot_url}" target="_blank" rel="noopener noreferrer">
+        <button type="button" class="btn btn-primary btn-sm">Advertiser Link</button>
+    </a>
+</div>
+ <!-- Ad Creative Body with 'More' button if needed -->
                     ${buildCreativeBody(ad_creative_bodies[0])}
+                </div>  
+                    </div>
                 </div>
                 </div> 
                 </div>  
@@ -308,7 +316,8 @@
 
             // Make a request with the 'after' cursor to fetch the next set of ads
             fetch(
-                    `${baseUrl}?ad_reached_countries=${selectedCountry}&ad_active_status=${selectedActiveStatus}&ad_type=${selectedAdType}&media_type=${selectedMediaType}&publisher_platforms=${selectedPublisherPlatforms}&search_terms=${search_terms}&after=${afterCursor}`)
+                    `${baseUrl}?ad_reached_countries=${selectedCountry}&ad_active_status=${selectedActiveStatus}&ad_type=${selectedAdType}&media_type=${selectedMediaType}&publisher_platforms=${selectedPublisherPlatforms}&search_terms=${search_terms}&after=${afterCursor}`
+                )
                 .then(response => response.json())
                 .then(data => {
                     // Append the new ads to the existing ones
