@@ -5,7 +5,8 @@
         <div>
             <ul class="breadcrumb">
                 <li class="breadcrumb-item"><a href="#">{{ __('PAGES') }}</a></li>
-                <li class="breadcrumb-item active"><a href="{{ route('suboffer.index', $subOffer->offer_id) }}">{{ __('Sub Offer') }}
+                <li class="breadcrumb-item active"><a
+                        href="{{ route('suboffer.index', $subOffer->offer_id) }}">{{ __('Sub Offer') }}
                     </a></li>
                 <li class="breadcrumb-item active">{{ __('Edit Sub Offer') }}</li>
             </ul>
@@ -36,8 +37,7 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="mb-3">
-                                    <label class="form-label">{{ __('Strategy') }}<span
-                                            class="text-danger">*</span></label>
+                                    <label class="form-label">{{ __('Strategy') }}<span class="text-danger">*</span></label>
                                     <select class="form-control" id="Strategy" name="strategy">
                                         <option value="">{{ __('Select Strategy') }}</option>
                                         <option value="none"
@@ -250,10 +250,7 @@
                             {{ __('Ads Section') }}
                         </div>
                         <div class="col-md-6 text-align-end">
-                            @if (
-                                $subOffer->offer_sub_headlines != null &&
-                                    $subOffer->offer_sub_primary_text != null &&
-                                    $subOffer->offer_sub_description != null)
+                            @if ($subOffer->offer_sub_headlines != null && $subOffer->offer_sub_primary_text != null && $subOffer->offer_sub_description != null)
                                 <a href="javascript:void(0)"
                                     class="btn btn-warning me-2 generate-button show_btn mb-2 text-white"
                                     id="generate-{{ $subOffer->id }}" onclick="generateContent({{ $subOffer->id }})">
@@ -358,7 +355,7 @@
                         </div>
                     </div>
                 </div> --}}
-                
+
             </form>
         </div>
     </div>
@@ -693,7 +690,7 @@
                 const groupFieldInput = $('#groupSelect').val();
                 const shortcodeFieldInput = $('#shortCodeSelect').val();
                 const campaignNameInput = $('input[name="campaign_name"]');
-                
+
                 const capitalizeWords = (str) => {
                     return str.split(' ')
                         .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
@@ -711,11 +708,15 @@
                 const offerCount = isNaN(subOfferCount) ? 1 : subOfferCount;
 
                 console.log(offerCount, 'news');
-                console.log('subOfferCount' , subOfferCount);
-                
+                console.log('subOfferCount', subOfferCount)
+
+                const strategyPart = strategy !== "NONE" ? ` - ${strategy}` : '';
+                campaignNameInput.val(
+                    `${topicName} - [${offerCount}] - ${shortProvide} - ${groupProvide}${strategyPart} - ${pixel} - ${feedProvide} - ${customField}`
+                );
 
                 campaignNameInput.val(
-                    `${topicName} - [${offerCount}] - ${shortProvide} - ${groupProvide} - ${strategy} - ${pixel} - ${feedProvide} - ${customField}`
+                    // `${topicName} - [${offerCount}] - ${shortProvide} - ${groupProvide} - ${strategy} - ${pixel} - ${feedProvide} - ${customField}`
                 );
             }
 

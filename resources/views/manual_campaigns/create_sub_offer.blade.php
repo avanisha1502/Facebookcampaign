@@ -1,20 +1,22 @@
 @extends('admin.home')
 
 @section('contents')
-<div class="d-flex align-items-center mb-3">
-    <div>
-        <ul class="breadcrumb">
-            <li class="breadcrumb-item"><a href="#">{{ __('PAGES') }}</a></li>
-            <li class="breadcrumb-item active"><a href="{{ route('suboffer.index', $campaignAllDetails->id) }}">{{ __('Sub Offer') }}
-                </a></li>
-            <li class="breadcrumb-item active">{{ __('Create Sub Offer') }}</li>
-        </ul>
+    <div class="d-flex align-items-center mb-3">
+        <div>
+            <ul class="breadcrumb">
+                <li class="breadcrumb-item"><a href="#">{{ __('PAGES') }}</a></li>
+                <li class="breadcrumb-item active"><a
+                        href="{{ route('suboffer.index', $campaignAllDetails->id) }}">{{ __('Sub Offer') }}
+                    </a></li>
+                <li class="breadcrumb-item active">{{ __('Create Sub Offer') }}</li>
+            </ul>
+        </div>
     </div>
-</div>
 
     <div class="row gx-4">
         <div class="col-xl-12">
-            <form action="{{ route('suboffer.store', $campaignAllDetails->id) }}" method="post" enctype="multipart/form-data">
+            <form action="{{ route('suboffer.store', $campaignAllDetails->id) }}" method="post"
+                enctype="multipart/form-data">
                 @csrf
                 <div class="card mb-4">
                     <div class="card-header bg-none fw-bold">
@@ -314,7 +316,7 @@
                         </div>
                     </div>
                 </div> --}}
-                
+
             </form>
         </div>
     </div>
@@ -664,10 +666,17 @@
                 const groupProvide = `[${groupFieldInput.toUpperCase()}]`;
                 const shortProvide = `[${shortcodeFieldInput.toUpperCase()}]`;
                 const offerCount = isNaN(subOfferCount) ? 1 : subOfferCount + 1;
-            
+
+
+                const strategyPart = strategy !== "NONE" ? ` - ${strategy}` : '';
+
                 campaignNameInput.val(
-                    `${topicName} - [${offerCount}] - ${shortProvide} - ${groupProvide} - ${strategy} - ${pixel} - ${feedProvide} - ${customField}`
+                    `${topicName} - [${offerCount}] - ${shortProvide} - ${groupProvide}${strategyPart} - ${pixel} - ${feedProvide} - ${customField}`
                 );
+
+                // campaignNameInput.val(
+                //     `${topicName} - [${offerCount}] - ${shortProvide} - ${groupProvide} - ${strategy} - ${pixel} - ${feedProvide} - ${customField}`
+                // );
             }
 
             // Handle short code selection change

@@ -12,7 +12,8 @@
         <div>
             <ul class="breadcrumb">
                 <li class="breadcrumb-item"><a href="#">{{ __('PAGES') }}</a></li>
-                <li class="breadcrumb-item active"><a href="{{ route('new-campaign-manually.index') }}">{{ __('Offer') }} </a></li>
+                <li class="breadcrumb-item active"><a href="{{ route('new-campaign-manually.index') }}">{{ __('Offer') }}
+                    </a></li>
                 <li class="breadcrumb-item active">{{ __('Offer Edit') }}</li>
             </ul>
         </div>
@@ -749,9 +750,14 @@
                     const groupProvide = `[${groupFieldInput.toUpperCase()}]`;
                     const shortProvide = `[${shortcodeFieldInput.toUpperCase()}]`;
 
+                    const strategyPart = strategy !== "NONE" ? ` - ${strategy}` : '';
+
                     campaignNameInput.val(
-                        `${topicName} - ${shortProvide} - ${groupProvide} - ${strategy} - ${pixel} - ${feedProvide} - ${customField}`
+                        `${topicName} - ${shortProvide} - ${groupProvide}${strategyPart} - ${pixel} - ${feedProvide} - ${customField}`
                     );
+                    // campaignNameInput.val(
+                    //     `${topicName} - ${shortProvide} - ${groupProvide} - ${strategy} - ${pixel} - ${feedProvide} - ${customField}`
+                    // );
                 }
 
                 // Handle short code selection change
