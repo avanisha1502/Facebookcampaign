@@ -8,7 +8,6 @@
     }
 </style>
 @section('contents')
-<<<<<<< HEAD
     <div class="d-flex align-items-center mb-3">
         <div>
             <ul class="breadcrumb">
@@ -18,17 +17,11 @@
             </ul>
         </div>
     </div>
-=======
->>>>>>> 16ab53cc22feea15a455bc1cc906da3f7247ef66
     <div class="row gx-4">
         <div class="col-xl-12">
             <div class="card mb-4">
                 <div class="card-header bg-none fw-bold">
-<<<<<<< HEAD
                     {{ __('Offer') }}
-=======
-                    Facebook Campaign
->>>>>>> 16ab53cc22feea15a455bc1cc906da3f7247ef66
                 </div>
                 <form action="{{ route('new-campaign-manually.update', $campaignAllDetails->id) }}" method="post"
                     enctype="multipart/form-data">
@@ -644,29 +637,17 @@
 
                                 fileReader.onload = function(e) {
                                     const previewElement = document.createElement('div');
-<<<<<<< HEAD
                                     previewElement.classList.add('mb-3',
-=======
-                                    previewElement.classList.add( 'mb-3',
->>>>>>> 16ab53cc22feea15a455bc1cc906da3f7247ef66
                                         'preview-container');
 
                                     if (file.type.startsWith('image/')) {
                                         previewElement.innerHTML = `
-<<<<<<< HEAD
                                 <img src="${e.target.result}" class="img-fluid" alt="Preview"  style="max-height: 145px; border-radius: 15px;" />
-=======
-                                <img src="${e.target.result}" class="img-fluid" alt="Preview" style="height:75px !important; border-radius: 15px;" />
->>>>>>> 16ab53cc22feea15a455bc1cc906da3f7247ef66
                                 <button type="button" class="btn btn-danger btn-sm mt-2 remove-btn" onclick="removePreview(this)">Remove</button>
                             `;
                                     } else if (file.type.startsWith('video/')) {
                                         previewElement.innerHTML = `
-<<<<<<< HEAD
                                 <video controls autoplay loop class="img-fluid" alt="Preview" style="max-height: 142px; border-radius: 15px; width: 91px;">
-=======
-                                <video controls autoplay loop class="img-fluid" alt="Preview">
->>>>>>> 16ab53cc22feea15a455bc1cc906da3f7247ef66
                                     <source src="${e.target.result}" type="${file.type}">
                                 </video>
                                 <button type="button" class="btn btn-danger btn-sm mt-2 remove-btn" onclick="removePreview(this)">Remove</button>

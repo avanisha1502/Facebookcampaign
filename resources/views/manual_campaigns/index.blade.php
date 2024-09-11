@@ -16,8 +16,55 @@
         </div>
     </div>
     <div class="row">
+        <div id="smallTable">
+            <div class="card">
+                <div class="card-body">
+                    <table class="table table-sm text-center">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">{{ __('Offer Campaign Name') }}</th>
+                                <th scope="col">{{ __('Country Name') }}</th>
+                                <th scope="col">{{ __('Action') }}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($manualCmapiagns as $index => $campaign)
+                                <tr>
+                                    <td class=""> <a href="{{ route('suboffer.index', $campaign->id) }}"
+                                            style="text-decoration:none; color:black;"> {{ $loop->iteration }} </a> </td>
+                                    <td class=""> <a href="{{ route('suboffer.index', $campaign->id) }}"
+                                            style="text-decoration:none; color:black;">
+                                            {{ $campaign->campaign_name }} </a> </td>
+                                    <td class=""> <a href="{{ route('suboffer.index', $campaign->id) }}"
+                                            style="text-decoration:none; color:black;">
+                                            {{ $campaign->group }}-{{ $campaign->country_name }}-{{ $campaign->short_code }}-{{ $campaign->language }}
+                                        </a> </td>
+                                    <td class="d-flex justify-content-center">
+                                        <a href="{{ route('new-campaign-manually.edit', $campaign->id) }}"
+                                            class="btn btn-primary btn-sm me-2"><i class="fa fa-edit"></i>
+                                            {{ __('Edit') }}</a>
+
+                                        <form method="POST" action="{{ route('new-campaign-manually.destroy', $campaign->id) }}"
+                                            id="user-form-{{ $campaign->id }}">
+                                            @csrf
+                                            @method('DELETE')
+                                            <input name="_method" type="hidden" value="DELETE">
+                                            <button type="submit" class="btn btn-danger show_confirm btn-sm">
+                                                <span class="text-white"><i class="fa fa-trash"></i>
+                                                    {{ __('Delete') }}</span>
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
         @if ($manualCmapiagns->count() > 0)
-            @foreach ($manualCmapiagns as $index => $campaign)
+            {{-- @foreach ($manualCmapiagns as $index => $campaign)
                 <div class="col-md-4 mb-3">
                     <div class="card card_wed">
                         <div class="card-body">
@@ -31,11 +78,7 @@
                                 <a href="{{ route('new-campaign-manually.edit', $campaign->id) }}"
                                     class="btn btn-primary me-2 mb-2"><i class="fa fa-edit"></i>
                                     {{ __('Edit') }}</a>
-                               
-                                    {{-- <a href="{{ route('AdsCreationOption.show', $campaign->id) }}"
-                                        class="btn btn-purple me-2 mb-2"><i class="fa fa-edit"></i>
-                                        {{ __('Ad Creatives') }}</a> --}}
-
+                            
                                 <form method="POST" action="{{ route('new-campaign-manually.destroy', $campaign->id) }}"
                                     id="user-form-{{ $campaign->id }}">
                                     @csrf
@@ -51,7 +94,7 @@
                         </div>
                     </div>
                 </div>
-            @endforeach
+            @endforeach --}}
         @else
         @endif
     </div>

@@ -23,6 +23,7 @@
     <link href="{{ asset('assets/plugins/tag-it/css/jquery.tagit.css') }}" rel="stylesheet">
     <!-- Swiper CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css">
+    <link rel="stylesheet" href="{{ asset('assets/css/handsontable.full.min.css') }}">
 
 
 
@@ -121,8 +122,8 @@
     <script src="{{ asset('assets/plugins/jquery-migrate/dist/jquery-migrate.min.js') }}"></script>
     <script src="{{ asset('assets/plugins/tag-it/js/tag-it.min.js') }}"></script>
     <script src="{{ asset('js/sweetalert.min.js') }}"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-
+    <script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ asset('js/handsontable.full.min.js') }}"></script>
     <script src="{{ asset('js/jquery.repeater.min.js') }}"></script>
     <script>
         //  var selector = "body";
@@ -173,9 +174,6 @@
         //     }
 
         // }
-=======
-    <script>
->>>>>>> 16ab53cc22feea15a455bc1cc906da3f7247ef66
         // $(function() {
         //     CountryData();
         // });

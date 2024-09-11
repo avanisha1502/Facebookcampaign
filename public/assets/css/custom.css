@@ -858,3 +858,46 @@ input:checked+.slider:before {
   border-radius: 21px;
     box-shadow: 1px 1px #a7a6a6;
 }
+
+#excel-view-wrapper {
+  overflow-x: auto;
+  overflow-y: hidden;
+  max-width: 100%;
+}
+#excel-view {
+  width: 100%;
+  table-layout: fixed;
+}
+/* Additional styles for headers */
+/* #excel-view .ht_master table th {
+  font-weight: bold;
+  font-size: 18px;
+  padding: 10px;
+} */
+
+
+/* .excel-container {
+  width: 100%;
+  height: 400px; 
+  margin-top: 20px;
+} */
+
+#excel-view .ht_master table th {
+  font-weight: bold;
+  font-size: 18px !important; /* Adjust this value to your preferred size */
+  color: #333 !important; /* Optional: Change the color if needed */
+}
+
+/* Optionally, you can also increase the padding to make headers more spacious */
+#excel-view .ht_master table th div {
+  padding: 10px !important; /* Adjust the padding for more spacing */
+}
+
+#excel-view .htCore th {
+  font-weight: 700 !important;
+  color: #333 !important; /* Customize the color */
+}
+
+.htHidden {
+  display: none !important;
+}

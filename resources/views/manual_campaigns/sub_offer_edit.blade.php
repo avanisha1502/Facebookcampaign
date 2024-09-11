@@ -693,7 +693,7 @@
                 const groupFieldInput = $('#groupSelect').val();
                 const shortcodeFieldInput = $('#shortCodeSelect').val();
                 const campaignNameInput = $('input[name="campaign_name"]');
-
+                
                 const capitalizeWords = (str) => {
                     return str.split(' ')
                         .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
@@ -711,6 +711,8 @@
                 const offerCount = isNaN(subOfferCount) ? 1 : subOfferCount;
 
                 console.log(offerCount, 'news');
+                console.log('subOfferCount' , subOfferCount);
+                
 
                 campaignNameInput.val(
                     `${topicName} - [${offerCount}] - ${shortProvide} - ${groupProvide} - ${strategy} - ${pixel} - ${feedProvide} - ${customField}`
@@ -748,7 +750,7 @@
                         url: `{{ route('subofferedits.count', ['id' => $subOffer->id]) }}`,
                         method: 'GET',
                         success: function(response) {
-                            updateCampaignName(response.count.sequence);
+                            updateCampaignName(response.count);
                         }
                     });
                 });
